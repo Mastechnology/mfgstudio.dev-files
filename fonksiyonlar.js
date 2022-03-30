@@ -6,9 +6,16 @@ function help() {
     term.echo('- [[b;#fff;]myBlog()] for going to my blog about coding.');
     term.echo('- [[b;#fff;]contact()], if you wanna say something or sth. else.')
     term.echo('- [[b;#fff;]cvDetails()] for my experience information.');
+    //term.echo('- [[b;#fff;]desktop()] for directing to UI.'); working on it.
     term.echo('- [[b;#fff;]clear()] to clear the screen.');
     term.echo('');
 } 
+
+function desktop() {
+    term.echo('');
+    term.echo('You are going to see the desktop here but its under construction.');
+    term.echo('');
+}
 
 //CONTACT LIST
 
@@ -104,8 +111,8 @@ function autonomousCar() {
     term.echo('');
     term.echo('* IEEE Bursa Uludag Otonomous Car Project.');
     term.echo('- Volunteer of IEEE Uludag Otonomous Car Project.');
-    term.echo('- Jun 2018 - Feb 2020, 1 yr 9 mos');
-    term.echo('- We worked on the project with our team of 14 people for the Marc-Autonomous Vehicle');
+    term.echo('- Jun 2018 - Feb 2020, 1 yr 9 months');
+    term.echo('- We worked on the project with our team of 14 people for the Marc-Autonomous Vehicle.');
     term.echo('  Project Competition.We had a very good experience in the competition and preparing for it.');
     term.echo('');
 }
@@ -128,9 +135,9 @@ function computerSociety() {
     term.echo('- IEEE Bursa Uludag University Student Branch.');
     term.echo('- Apr 2019 - Aug 2020, 1 yr 5 months.');
     term.echo('- As the Cs Committee Representative in IEEE Bursa Uludağ, I organized trainings,');
-    term.echo('workshops, teatalk and technical trips in the field of computers. The purpose of ');
-    term.echo('all of these was to create a space for myself and for us students to learn and improve');
-    term.echo('themselves outside of school.');
+    term.echo('  workshops, teatalk and technical trips in the field of computers. The purpose of ');
+    term.echo('  all of these was to create a space for myself and for us students to learn and improve');
+    term.echo('  themselves outside of school.');
     term.echo('');
     term.echo('Hint: You can type ieeeULUSB() to see our club in Instagram.');
     term.echo('');
@@ -162,7 +169,7 @@ function myEducation() {
 
 function uludagUni() {
     term.echo('');
-    term.echo('* Bachelor\'s Degree in Computer Engineering');
+    term.echo('* Bachelor\'s Degree in Computer Engineering.');
     term.echo('- I finished my school with 3.31 GPA from 2017 to 2021.');
     term.echo('- My graduation project was about "APPLICATION THAT CAN DISCRIMINATE RECYCLABLE SUBSTANCES".');
     term.echo('- You can see my projects paper with typing [[b;#fff;]uludagPaper()].');
@@ -205,7 +212,7 @@ function versionUpdates() {
     term.echo('- I just uploaded my Site. Sooooooo I need to think what can I add extra.');
     term.echo('- If you have an idea, here is my [[b;#fff;]contact()] list.');
     term.echo('');
-    term.echo('Hint: For older versions, go to my [[b;#fff;]githubRepo()]');
+    term.echo('Hint: For older versions, go to my [[b;#fff;]githubRepo()].');
     term.echo('');
 }
 
@@ -226,13 +233,13 @@ function hello() {
 
 function whoAmI() {
     term.echo('');
-    term.echo('I am a computer engineer who is working on his dream job. ');
-    term.echo('I love to work on Mobile App Development and IOT. ');
-    term.echo('My second dream is to pass what I am learning to others. ');
-    term.echo('Because of that, I opened [[b;#fff;]mfgstudiosblog.com] for expanding ');
-    term.echo('the Turkish coding sources.I\'m working on it because I think ');
-    term.echo('we need this for our future. My Github account name is [[b;#fff;]@Mastechnology], ');
-    term.echo('you can find my works in there.');
+    term.echo('- I am a computer engineer who is working on his dream job. ');
+    term.echo('  I love to work on Mobile App Development and IOT. ');
+    term.echo('  My second dream is to pass what I am learning to others. ');
+    term.echo('  Because of that, I opened [[b;#fff;]mfgstudiosblog.com] for expanding ');
+    term.echo('  the Turkish coding sources.I\'m working on it because I think ');
+    term.echo('  we need this for our future. My Github account name is [[b;#fff;]@Mastechnology], ');
+    term.echo('  you can find my works in there.');
     term.echo('');
     term.echo('Hint: Go to site [[b;#fff;]mfgstudiosblog.com] with [[b;#fff;]myBlog()].');
     term.echo('Hint: Go to my github account with [[b;#fff;]myGithub()].');

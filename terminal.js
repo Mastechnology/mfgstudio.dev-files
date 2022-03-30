@@ -46,14 +46,14 @@
 /* global define, Map */
 /* eslint-disable */
 /* istanbul ignore next */
-(function(ctx) {
-    var sprintf = function() {
+(function (ctx) {
+    var sprintf = function () {
         if (!sprintf.cache.hasOwnProperty(arguments[0])) {
             sprintf.cache[arguments[0]] = sprintf.parse(arguments[0]);
         }
         return sprintf.format.call(null, sprintf.cache[arguments[0]], arguments);
     };
-    sprintf.format = function(parse_tree, argv) {
+    sprintf.format = function (parse_tree, argv) {
         var cursor = 1, tree_length = parse_tree.length, node_type = '', arg, output = [], i, k, match, pad, pad_character, pad_length;
         for (i = 0; i < tree_length; i++) {
             node_type = get_type(parse_tree[i]);
@@ -66,7 +66,7 @@
                     arg = argv[cursor];
                     for (k = 0; k < match[2].length; k++) {
                         if (!arg.hasOwnProperty(match[2][k])) {
-                            throw(sprintf('[sprintf] property "%s" does not exist', match[2][k]));
+                            throw (sprintf('[sprintf] property "%s" does not exist', match[2][k]));
                         }
                         arg = arg[match[2][k]];
                     }
@@ -79,7 +79,7 @@
                 }
 
                 if (/[^s]/.test(match[8]) && (get_type(arg) !== 'number')) {
-                    throw(sprintf('[sprintf] expecting number but found %s', get_type(arg)));
+                    throw (sprintf('[sprintf] expecting number but found %s', get_type(arg)));
                 }
                 switch (match[8]) {
                     case 'b': arg = arg.toString(2); break;
@@ -105,7 +105,7 @@
 
     sprintf.cache = {};
 
-    sprintf.parse = function(fmt) {
+    sprintf.parse = function (fmt) {
         var _fmt = fmt, match = [], parse_tree = [], arg_names = 0;
         while (_fmt) {
             if ((match = /^[^\x25]+/.exec(_fmt)) !== null) {
@@ -128,12 +128,12 @@
                                 field_list.push(field_match[1]);
                             }
                             else {
-                                throw('[sprintf] huh?');
+                                throw ('[sprintf] huh?');
                             }
                         }
                     }
                     else {
-                        throw('[sprintf] huh?');
+                        throw ('[sprintf] huh?');
                     }
                     match[2] = field_list;
                 }
@@ -141,19 +141,19 @@
                     arg_names |= 2;
                 }
                 if (arg_names === 3) {
-                    throw('[sprintf] mixing positional and named placeholders is not (yet) supported');
+                    throw ('[sprintf] mixing positional and named placeholders is not (yet) supported');
                 }
                 parse_tree.push(match);
             }
             else {
-                throw('[sprintf] huh?');
+                throw ('[sprintf] huh?');
             }
             _fmt = _fmt.slice(match[0].length);
         }
         return parse_tree;
     };
 
-    var vsprintf = function(fmt, argv, _argv) {
+    var vsprintf = function (fmt, argv, _argv) {
         _argv = argv.slice(0);
         _argv.splice(0, 0, fmt);
         return sprintf.apply(null, _argv);
@@ -167,7 +167,7 @@
     }
 
     function str_repeat(input, multiplier) {
-        for (var output = []; multiplier > 0; output[--multiplier] = input) {/* do nothing */}
+        for (var output = []; multiplier > 0; output[--multiplier] = input) {/* do nothing */ }
         return output.join('');
     }
 
@@ -180,7 +180,7 @@
 // -----------------------------------------------------------------------
 /* eslint-enable */
 // UMD taken from https://github.com/umdjs/umd
-(function(factory, undefined) {
+(function (factory, undefined) {
     var root;
     if (typeof window !== 'undefined') {
         root = window;
@@ -194,13 +194,13 @@
     if (typeof define === 'function' && define.amd) {
         // AMD. Register as an anonymous module.
         // istanbul ignore next
-        define(['jquery', 'wcwidth'], function(jquery, wcwidth) {
+        define(['jquery', 'wcwidth'], function (jquery, wcwidth) {
             factory(jquery, wcwidth, root);
             return jquery;
         });
     } else if (typeof module === 'object' && module.exports) {
         // Node/CommonJS
-        module.exports = function(root, jQuery, wcwidth) {
+        module.exports = function (root, jQuery, wcwidth) {
             if (jQuery === undefined) {
                 // require('jQuery') returns a factory that requires window to
                 // build a jQuery instance, we normalize how we use modules
@@ -226,7 +226,7 @@
         }
         factory(root.jQuery || root.cash, root.wcwidth, root);
     }
-})(function($, wcwidth, root, undefined) {
+})(function ($, wcwidth, root, undefined) {
     'use strict';
     // -----------------------------------------------------------------------
     // :: debug functions
@@ -246,11 +246,11 @@
     function DelayQueue() {
         var callbacks = $.Callbacks();
         var resolved = false;
-        this.resolve = function() {
+        this.resolve = function () {
             callbacks.fire();
             resolved = true;
         };
-        this.add = function(fn) {
+        this.add = function (fn) {
             if (resolved) {
                 fn();
             } else {
@@ -261,17 +261,17 @@
     // -----------------------------------------------------------------------
     // :: map object to object
     // -----------------------------------------------------------------------
-    $.omap = function(o, fn) {
+    $.omap = function (o, fn) {
         var result = {};
-        $.each(o, function(k, v) {
+        $.each(o, function (k, v) {
             result[k] = fn.call(o, k, v);
         });
         return result;
     };
-    $.fn.text_length = function() {
-        return this.map(function() {
+    $.fn.text_length = function () {
+        return this.map(function () {
             return $(this).text().length;
-        }).get().reduce(function(a, b) {
+        }).get().reduce(function (a, b) {
             return a + b;
         }, 0);
     };
@@ -279,7 +279,7 @@
     // :: Deep clone of objects and arrays
     // -----------------------------------------------------------------------
     var Clone = {
-        clone_object: function(object) {
+        clone_object: function (object) {
             var tmp = {};
             if (typeof object === 'object') {
                 if ($.isArray(object)) {
@@ -300,12 +300,12 @@
             }
             return tmp;
         },
-        clone_array: function(array) {
+        clone_array: function (array) {
             if (!is_function(Array.prototype.map)) {
                 throw new Error("Your browser don't support ES5 array map " +
-                                'use es5-shim');
+                    'use es5-shim');
             }
-            return array.slice(0).map(function(item) {
+            return array.slice(0).map(function (item) {
                 if (typeof item === 'object') {
                     return this.clone_object(item);
                 } else {
@@ -314,7 +314,7 @@
             }.bind(this));
         }
     };
-    var clone = function(object) {
+    var clone = function (object) {
         return Clone.clone_object(object);
     };
     // -----------------------------------------------------------------------
@@ -322,8 +322,8 @@
     // -----------------------------------------------------------------------
     /* eslint-disable */
     if ('Map' in root && !('clear' in Map.prototype)) {
-        Map.prototype.clear = function() {
-            this.forEach(function(value, key, map) {
+        Map.prototype.clear = function () {
+            this.forEach(function (value, key, map) {
                 map.delete(key);
             });
         };
@@ -333,8 +333,8 @@
     // -----------------------------------------------------------------------
     var localStorage;
     /* istanbul ignore next */
-    (function() {
-        var hasLS = function() {
+    (function () {
+        var hasLS = function () {
             try {
                 var testKey = 'test', storage = window.localStorage;
                 storage.setItem(testKey, '1');
@@ -344,7 +344,7 @@
                 return false;
             }
         };
-        var hasCookies = function() {
+        var hasCookies = function () {
             try {
                 document.cookie.split(';');
                 return true;
@@ -445,7 +445,7 @@
     // :: Debounce from Lodash
     // -----------------------------------------------------------------------
     /* istanbul ignore next */
-    var debounce = (function() {
+    var debounce = (function () {
         var FUNC_ERROR_TEXT = 'Expected a function';
         function isObject(value) {
             var type = typeof value;
@@ -517,7 +517,7 @@
                 // trailing edge, the system time has gone backwards and we're treating
                 // it as the trailing edge, or we've hit the `maxWait` limit.
                 return (lastCallTime === undefined || (timeSinceLastCall >= wait) ||
-                        (timeSinceLastCall < 0) || (maxing && timeSinceLastInvoke >= maxWait));
+                    (timeSinceLastCall < 0) || (maxing && timeSinceLastInvoke >= maxWait));
             }
 
             function timerExpired() {
@@ -586,20 +586,20 @@
     // -----------------------------------------------------------------------
     var jQuery = $;
     /* istanbul ignore next */
-    (function($) {
+    (function ($) {
         jQuery.fn.extend({
-            everyTime: function(interval, label, fn, times, belay) {
-                return this.each(function() {
+            everyTime: function (interval, label, fn, times, belay) {
+                return this.each(function () {
                     jQuery.timer.add(this, interval, label, fn, times, belay);
                 });
             },
-            oneTime: function(interval, label, fn) {
-                return this.each(function() {
+            oneTime: function (interval, label, fn) {
+                return this.each(function () {
                     jQuery.timer.add(this, interval, label, fn, 1);
                 });
             },
-            stopTime: function(label, fn) {
-                return this.each(function() {
+            stopTime: function (label, fn) {
+                return this.each(function () {
                     jQuery.timer.remove(this, label, fn);
                 });
             }
@@ -620,7 +620,7 @@
                     'hs': 100000,
                     'ks': 1000000
                 },
-                timeParse: function(value) {
+                timeParse: function (value) {
                     if (value === undefined || value === null) {
                         return null;
                     }
@@ -633,7 +633,7 @@
                         return value;
                     }
                 },
-                add: function(element, interval, label, fn, times, belay) {
+                add: function (element, interval, label, fn, times, belay) {
                     var counter = 0;
 
                     if (jQuery.isFunction(label)) {
@@ -667,7 +667,7 @@
                     }
                     fn.$timerID = fn.$timerID || this.guid++;
 
-                    var handler = function() {
+                    var handler = function () {
                         if (belay && handler.inProgress) {
                             return;
                         }
@@ -691,7 +691,7 @@
                     this.global[label].push(element);
 
                 },
-                remove: function(element, label, fn) {
+                remove: function (element, label, fn) {
                     var timers = element.$timers, ret;
 
                     if (timers) {
@@ -741,7 +741,7 @@
             }
         });
         if (/(msie) ([\w.]+)/.exec(navigator.userAgent.toLowerCase())) {
-            $(window).one('unload', function() {
+            $(window).one('unload', function () {
                 var global = jQuery.timer.global;
                 for (var label in global) {
                     if (global.hasOwnProperty(label)) {
@@ -758,7 +758,7 @@
     // :: CROSS BROWSER SPLIT
     // -----------------------------------------------------------------------
     /* istanbul ignore next */
-    (function(undef) {
+    (function (undef) {
         // prevent double include
 
         if (!String.prototype.split.toString().match(/\[native/)) {
@@ -766,22 +766,22 @@
         }
 
         var nativeSplit = String.prototype.split,
-        compliantExecNpcg = /()??/.exec("")[1] === undef, // NPCG: nonparticipating capturing group
-        self;
+            compliantExecNpcg = /()??/.exec("")[1] === undef, // NPCG: nonparticipating capturing group
+            self;
 
-        self = function(str, separator, limit) {
+        self = function (str, separator, limit) {
             // If `separator` is not a regex, use `nativeSplit`
             if (Object.prototype.toString.call(separator) !== "[object RegExp]") {
                 return nativeSplit.call(str, separator, limit);
             }
             var output = [],
-            flags = (separator.ignoreCase ? "i" : "") +
-                (separator.multiline  ? "m" : "") +
-                (separator.extended   ? "x" : "") + // Proposed for ES6
-                (separator.sticky     ? "y" : ""), // Firefox 3+
+                flags = (separator.ignoreCase ? "i" : "") +
+                    (separator.multiline ? "m" : "") +
+                    (separator.extended ? "x" : "") + // Proposed for ES6
+                    (separator.sticky ? "y" : ""), // Firefox 3+
                 lastLastIndex = 0,
-            // Make `global` and avoid `lastIndex` issues by working with a copy
-            separator2, match, lastIndex, lastLength;
+                // Make `global` and avoid `lastIndex` issues by working with a copy
+                separator2, match, lastIndex, lastLength;
             separator = new RegExp(separator.source, flags + "g");
             str += ""; // Type-convert
             if (!compliantExecNpcg) {
@@ -798,34 +798,34 @@
             // ? Math.pow(2, 32) - 1 : ToUint32(limit)
             limit = limit === undef ? -1 >>> 0 : limit >>> 0;
             while (match = separator.exec(str)) {
-                    // `separator.lastIndex` is not reliable cross-browser
-                    lastIndex = match.index + match[0].length;
-                    if (lastIndex > lastLastIndex) {
-                        output.push(str.slice(lastLastIndex, match.index));
-                        // Fix browsers whose `exec` methods don't consistently return `undefined` for
-                        // nonparticipating capturing groups
-                        if (!compliantExecNpcg && match.length > 1) {
-                            match[0].replace(separator2, function() {
-                                for (var i = 1; i < arguments.length - 2; i++) {
-                                    if (arguments[i] === undef) {
-                                        match[i] = undef;
-                                    }
+                // `separator.lastIndex` is not reliable cross-browser
+                lastIndex = match.index + match[0].length;
+                if (lastIndex > lastLastIndex) {
+                    output.push(str.slice(lastLastIndex, match.index));
+                    // Fix browsers whose `exec` methods don't consistently return `undefined` for
+                    // nonparticipating capturing groups
+                    if (!compliantExecNpcg && match.length > 1) {
+                        match[0].replace(separator2, function () {
+                            for (var i = 1; i < arguments.length - 2; i++) {
+                                if (arguments[i] === undef) {
+                                    match[i] = undef;
                                 }
-                            });
-                        }
-                        if (match.length > 1 && match.index < str.length) {
-                            Array.prototype.push.apply(output, match.slice(1));
-                        }
-                        lastLength = match[0].length;
-                        lastLastIndex = lastIndex;
-                        if (output.length >= limit) {
-                            break;
-                        }
+                            }
+                        });
                     }
-                    if (separator.lastIndex === match.index) {
-                        separator.lastIndex++; // Avoid an infinite loop
+                    if (match.length > 1 && match.index < str.length) {
+                        Array.prototype.push.apply(output, match.slice(1));
+                    }
+                    lastLength = match[0].length;
+                    lastLastIndex = lastIndex;
+                    if (output.length >= limit) {
+                        break;
                     }
                 }
+                if (separator.lastIndex === match.index) {
+                    separator.lastIndex++; // Avoid an infinite loop
+                }
+            }
             if (lastLastIndex === str.length) {
                 if (lastLength || !separator.test("")) {
                     output.push("");
@@ -837,7 +837,7 @@
         };
 
         // For convenience
-        String.prototype.split = function(separator, limit) {
+        String.prototype.split = function (separator, limit) {
             return self(this, separator, limit);
         };
 
@@ -848,7 +848,7 @@
     // :: jQuery Caret
     // -----------------------------------------------------------------------
     /* istanbul ignore next */
-    $.fn.caret = function(pos) {
+    $.fn.caret = function (pos) {
         var target = this[0];
         var isContentEditable = target.contentEditable === 'true';
         //get
@@ -861,7 +861,7 @@
                         target.focus();
                     }
                     var range1 = window.getSelection().getRangeAt(0),
-                    range2 = range1.cloneRange();
+                        range2 = range1.cloneRange();
                     range2.selectNodeContents(target);
                     range2.setEnd(range1.endContainer, range1.endOffset);
                     return range2.toString().length;
@@ -875,16 +875,16 @@
                 //contenteditable
                 if (isContentEditable) {
                     var range1 = document.selection.createRange(),
-                    range2 = document.body.createTextRange();
+                        range2 = document.body.createTextRange();
                     range2.moveToElementText(target);
                     range2.setEndPoint('EndToEnd', range1);
                     return range2.text.length;
                 }
                 //textarea
                 var pos = 0,
-                range = target.createTextRange(),
-                range2 = document.selection.createRange().duplicate(),
-                bookmark = range2.getBookmark();
+                    range = target.createTextRange(),
+                    range2 = document.selection.createRange().duplicate(),
+                    bookmark = range2.getBookmark();
                 range.moveToBookmark(bookmark);
                 while (range.moveStart('character', -1) !== 0) pos++;
                 return pos;
@@ -894,7 +894,7 @@
         }
         //set
         if (pos === -1)
-            pos = this[isContentEditable? 'text' : 'val']().length;
+            pos = this[isContentEditable ? 'text' : 'val']().length;
         //HTML5
         if (window.getSelection) {
             //contenteditable
@@ -932,18 +932,18 @@
             destroy: $.noop,
             name: 'event'
         }, options);
-        return function(callback, options) {
+        return function (callback, options) {
             var trigger = arguments.length === 0;
             var unbind = arguments[0] === "unbind";
             if (!trigger && !unbind && !is_function(callback)) {
                 throw new Error('Invalid argument, it need to a function or string ' +
-                                '"unbind" or no arguments.');
+                    '"unbind" or no arguments.');
             }
             if (unbind) {
                 callback = is_function(arguments[1]) ? arguments[1] : null;
             }
             var data_name = 'callbacks_' + factory_settings.name;
-            return this.each(function() {
+            return this.each(function () {
                 var $this = $(this);
                 var callbacks;
                 function handler(arg) {
@@ -984,7 +984,7 @@
     // -----------------------------------------------------------------------
     $.fn.resizer = make_callback_plugin({
         name: 'resize',
-        init: function(handler, options) {
+        init: function (handler, options) {
             var settings = $.extend({
                 prefix: ''
             }, options);
@@ -994,7 +994,7 @@
             if ($this.is('body')) {
                 $(window).on('resize.resizer', handler);
             } else if (window.ResizeObserver) {
-                resizer = new ResizeObserver(function() {
+                resizer = new ResizeObserver(function () {
                     if (!first) {
                         handler();
                     }
@@ -1008,7 +1008,7 @@
                 $(iframe.contentWindow).on('resize', handler);
             }
         },
-        destroy: function() {
+        destroy: function () {
             var $this = $(this);
             if (window.ResizeObserver) {
                 var observer = $this.data('observer');
@@ -1033,15 +1033,15 @@
     // -----------------------------------------------------------------------
     $.fn.touch_scroll = make_callback_plugin({
         name: 'touch',
-        init: function(handler) {
+        init: function (handler) {
             var origin;
             var previous;
-            $(this).on('touchstart.scroll', function(e) {
+            $(this).on('touchstart.scroll', function (e) {
                 e = e.originalEvent;
                 if (e.target.tagName.toLowerCase() !== 'a' && e.touches.length === 1) {
                     previous = origin = e.touches[0];
                 }
-            }).on('touchmove.scroll', function(e) {
+            }).on('touchmove.scroll', function (e) {
                 e = e.originalEvent;
                 if (origin && e.touches.length === 1) {
                     var current = e.touches[0];
@@ -1055,13 +1055,13 @@
                     }
                     previous = current;
                 }
-            }).on('touchend.scroll', function() {
+            }).on('touchend.scroll', function () {
                 if (origin || previous) {
                     origin = previous = null;
                 }
             });
         },
-        destroy: function() {
+        destroy: function () {
             $(this).off('touchstart.scroll touchmove.scroll touchend.scroll');
         }
     });
@@ -1082,11 +1082,11 @@
             } else if (is_function(value.then)) {
                 return value.then(callback);
             } else if (value instanceof Array) {
-                var promises = value.filter(function(value) {
+                var promises = value.filter(function (value) {
                     return value && (is_function(value.done) || is_function(value.then));
                 });
                 if (promises.length) {
-                    var result = $.when.apply($, value).then(function() {
+                    var result = $.when.apply($, value).then(function () {
                         return callback([].slice.call(arguments));
                     });
                     if (is_function(value.catch)) {
@@ -1106,7 +1106,7 @@
     // :: based on https://github.com/zeusdeux/isInViewport
     // :: work only vertically and on dom elements
     // -----------------------------------------------------------------------
-    $.fn.is_fully_in_viewport = (function() {
+    $.fn.is_fully_in_viewport = (function () {
         function is_visible(node, container) {
             var box = node.getBoundingClientRect();
             var viewport = container[0].getBoundingClientRect();
@@ -1116,10 +1116,10 @@
             return bottom > 0 && top <= height;
         }
         if (root.IntersectionObserver) {
-            return function(container) {
+            return function (container) {
                 var node = this[0];
                 var defer = jQuery.Deferred();
-                var item_observer = new root.IntersectionObserver(function(entries) {
+                var item_observer = new root.IntersectionObserver(function (entries) {
                     defer.resolve(entries[0].isIntersecting && entries[0].ratio === 1);
                     item_observer.unobserve(node);
                 }, {
@@ -1129,7 +1129,7 @@
                 return defer.promise();
             };
         } else {
-            return function(container) {
+            return function (container) {
                 return jquery_resolve(is_visible(this[0], container));
             };
         }
@@ -1178,7 +1178,7 @@
     // -------------------------------------------------------------------------
     // taken from https://hacks.mozilla.org/2011/09/detecting-and-generating-
     // css-animations-in-javascript/
-    var animation_supported = (function() {
+    var animation_supported = (function () {
         if (typeof document === 'undefined') {
             return false;
         }
@@ -1205,7 +1205,7 @@
     var is_IE = /MSIE|Trident/.test(agent) || /rv:11.0/i.test(agent);
     var is_IEMobile = /IEMobile/.test(agent);
     // -------------------------------------------------------------------------
-    var is_ch_unit_supported = (function() {
+    var is_ch_unit_supported = (function () {
         if (is_IE && !is_IEMobile) {
             return false;
         }
@@ -1218,7 +1218,7 @@
     })();
     // -------------------------------------------------------------------------
     var is_css_variables_supported = root.CSS && root.CSS.supports &&
-            root.CSS.supports('--fake-var', 0);
+        root.CSS.supports('--fake-var', 0);
     // -------------------------------------------------------------------------
     var is_android = navigator.userAgent.toLowerCase().indexOf('android') !== -1;
     // -------------------------------------------------------------------------
@@ -1231,7 +1231,7 @@
         return !!get.toString().match(/\[native code\]/);
     })();
     // -------------------------------------------------------------------------
-    var is_browser = (function() {
+    var is_browser = (function () {
         try {
             return this === window;
         } catch (e) {
@@ -1239,7 +1239,7 @@
         }
     })();
     // -------------------------------------------------------------------------
-    var is_mobile = (function(a) {
+    var is_mobile = (function (a) {
         var check = false;
         if (mobile_re.test(a) || tablet_re.test(a.substr(0, 4))) {
             check = true;
@@ -1256,7 +1256,7 @@
     // -------------------------------------------------------------------------
     var ch_unit_bug = false;
     if (is_browser) {
-        $(function() {
+        $(function () {
             function width(e) {
                 return e[0].getBoundingClientRect().width;
             }
@@ -1276,11 +1276,11 @@
     // -----------------------------------------------------------------------
     function css(node, obj, value) {
         if (node instanceof $.fn.init) {
-            node.each(function() {
+            node.each(function () {
                 css(this, obj, value);
             });
         } else if ($.isPlainObject(obj)) {
-            Object.keys(obj).forEach(function(key) {
+            Object.keys(obj).forEach(function (key) {
                 node.style.setProperty(key, obj[key]);
             });
         } else if (typeof value === 'undefined') {
@@ -1310,7 +1310,7 @@
         var message = (label ? label + ': ' : '') + exception_message(e);
         if (excepctions.indexOf(message) === -1) {
             excepctions.push(message);
-            setTimeout(function() {
+            setTimeout(function () {
                 throw e;
             }, 0);
             //alert(message + (e.stack ? '\n' + e.stack : ''));
@@ -1353,20 +1353,20 @@
         var data = [].slice.call(arguments);
         var pos = 0;
         $.extend(this, {
-            get: function() {
+            get: function () {
                 return data;
             },
-            index: function() {
+            index: function () {
                 return pos;
             },
-            rotate: function(skip, init) {
+            rotate: function (skip, init) {
                 if (init === undefined) {
                     init = pos;
                 } else if (init === pos) {
                     return;
                 }
                 if (!skip) {
-                    var defined = data.filter(function(item) {
+                    var defined = data.filter(function (item) {
                         return typeof item !== 'undefined';
                     });
                     if (!defined.length) {
@@ -1391,13 +1391,13 @@
                     }
                 }
             },
-            length: function() {
+            length: function () {
                 return data.length;
             },
-            remove: function(index) {
+            remove: function (index) {
                 delete data[index];
             },
-            set: function(item) {
+            set: function (item) {
                 for (var i = data.length; i--;) {
                     if (data[i] === item) {
                         pos = i;
@@ -1407,7 +1407,7 @@
                 this.append(item);
                 pos = data.length - 1;
             },
-            front: function() {
+            front: function () {
                 if (data.length) {
                     var index = pos;
                     var restart = false;
@@ -1424,22 +1424,22 @@
                     return data[index];
                 }
             },
-            map: function(fn) {
-                return data.map(function(item, i) {
+            map: function (fn) {
+                return data.map(function (item, i) {
                     if (typeof item !== 'undefined') {
                         return fn(item, i);
                     }
                     return null;
                 }).filter(Boolean);
             },
-            forEach: function(fn) {
-                return data.forEach(function(item, i) {
+            forEach: function (fn) {
+                return data.forEach(function (item, i) {
                     if (typeof item !== 'undefined') {
                         fn(item, i);
                     }
                 });
             },
-            append: function(item) {
+            append: function (item) {
                 data.push(item);
             }
         });
@@ -1457,16 +1457,16 @@
     function Stack(init) {
         var data = is_array(init) ? init : init ? [init] : [];
         $.extend(this, {
-            data: function() {
+            data: function () {
                 return data;
             },
-            map: function(fn) {
+            map: function (fn) {
                 return $.map(data, fn);
             },
-            size: function() {
+            size: function () {
                 return data.length;
             },
-            pop: function() {
+            pop: function () {
                 if (data.length === 0) {
                     return null;
                 } else {
@@ -1475,14 +1475,14 @@
                     return value;
                 }
             },
-            push: function(value) {
+            push: function (value) {
                 data = data.concat([value]);
                 return value;
             },
-            top: function() {
+            top: function () {
                 return data.length > 0 ? data[data.length - 1] : null;
             },
-            clone: function() {
+            clone: function () {
                 return new Stack(data.slice(0));
             }
         });
@@ -1507,7 +1507,7 @@
         }
     }
     // -------------------------------------------------------------------------
-    WorkerCache.prototype.validate = function(key) {
+    WorkerCache.prototype.validate = function (key) {
         var valid = this._validation(key);
         var test = valid === undefined || valid === true;
         if (!test) {
@@ -1516,14 +1516,14 @@
         return test;
     };
     // -------------------------------------------------------------------------
-    WorkerCache.prototype.get = function(key) {
+    WorkerCache.prototype.get = function (key) {
         if (!this._cache) {
             return this._action(key);
         }
         var value;
         if (this.validate(key) && this._cache.has(key)) {
             value = this._cache.get(key);
-            this._onCache({cache: value});
+            this._onCache({ cache: value });
             return value;
         }
         value = this._action(key);
@@ -1549,7 +1549,7 @@
         }
         var pos = data.length - 1;
         $.extend(this, {
-            append: function(item) {
+            append: function (item) {
                 if (enabled) {
                     if (data[data.length - 1] !== item) {
                         data.push(item);
@@ -1563,7 +1563,7 @@
                     }
                 }
             },
-            set: function(new_data) {
+            set: function (new_data) {
                 if (is_array(new_data)) {
                     data = new_data;
                     if (!memory) {
@@ -1571,25 +1571,25 @@
                     }
                 }
             },
-            data: function() {
+            data: function () {
                 return data;
             },
-            reset: function() {
+            reset: function () {
                 pos = data.length - 1;
             },
-            last: function() {
+            last: function () {
                 return data[data.length - 1];
             },
-            end: function() {
+            end: function () {
                 return pos === data.length - 1;
             },
-            position: function() {
+            position: function () {
                 return pos;
             },
-            current: function() {
+            current: function () {
                 return data[pos];
             },
-            next: function() {
+            next: function () {
                 var old = pos;
                 if (pos < data.length - 1) {
                     ++pos;
@@ -1598,7 +1598,7 @@
                     return data[pos];
                 }
             },
-            previous: function() {
+            previous: function () {
                 var old = pos;
                 if (pos > 0) {
                     --pos;
@@ -1607,25 +1607,25 @@
                     return data[pos];
                 }
             },
-            clear: function() {
+            clear: function () {
                 data = [];
                 this.purge();
             },
-            enabled: function() {
+            enabled: function () {
                 return enabled;
             },
-            enable: function() {
+            enable: function () {
                 enabled = true;
             },
-            purge: function() {
+            purge: function () {
                 if (!memory) {
                     $.Storage.remove(storage_key);
                 }
             },
-            disable: function() {
+            disable: function () {
                 enabled = false;
             },
-            toggle: function(value) {
+            toggle: function (value) {
                 if (typeof value === 'undefined') {
                     enabled = !enabled;
                 } else {
@@ -1641,38 +1641,38 @@
         this._snapshot = [];
     }
     // -------------------------------------------------------------------------
-    OutputLines.prototype.make_snapshot = function(snapshot) {
+    OutputLines.prototype.make_snapshot = function (snapshot) {
         this._snapshot.push(snapshot);
     };
     // -------------------------------------------------------------------------
-    OutputLines.prototype.get_partial = function() {
+    OutputLines.prototype.get_partial = function () {
         var last = this._snapshot[this._snapshot.length - 1];
         return last;
     };
     // -------------------------------------------------------------------------
-    OutputLines.prototype.update_snapshot = function(index, snapshot) {
+    OutputLines.prototype.update_snapshot = function (index, snapshot) {
         this._snapshot[index] = snapshot;
     };
     // -------------------------------------------------------------------------
-    OutputLines.prototype.limit_snapshot = function(limit) {
+    OutputLines.prototype.limit_snapshot = function (limit) {
         this._snapshot = this._snapshot.slice(limit);
     };
     // -------------------------------------------------------------------------
-    OutputLines.prototype.clear_snapshot = function() {
+    OutputLines.prototype.clear_snapshot = function () {
         this._snapshot = [];
     };
     // -------------------------------------------------------------------------
-    OutputLines.prototype.get_snapshot = function() {
-        return this._snapshot.reduce(function(acc, arr) {
+    OutputLines.prototype.get_snapshot = function () {
+        return this._snapshot.reduce(function (acc, arr) {
             return acc.concat(arr);
         }, []).join('\n');
     };
     // -------------------------------------------------------------------------
-    OutputLines.prototype.join = function() {
+    OutputLines.prototype.join = function () {
         var args = [].slice.call(arguments);
         if (args.some(is_function)) {
-            return function() {
-                return args.reduce(function(acc, arg) {
+            return function () {
+                return args.reduce(function (acc, arg) {
                     if (is_function(acc)) {
                         acc = acc();
                     }
@@ -1680,7 +1680,7 @@
                         arg = arg();
                     }
                     if (is_promise(acc) || is_promise(arg)) {
-                        return $.when(acc, arg).then(function(acc, arg) {
+                        return $.when(acc, arg).then(function (acc, arg) {
                             return acc + arg;
                         });
                     }
@@ -1688,8 +1688,8 @@
                 });
             };
         } else if (args.some(is_promise)) {
-            return args.reduce(function(acc, arg) {
-                return $.when(acc, arg).then(function(acc, arg) {
+            return args.reduce(function (acc, arg) {
+                return $.when(acc, arg).then(function (acc, arg) {
                     return acc + arg;
                 });
             });
@@ -1697,11 +1697,11 @@
         return args.join('');
     };
     // -------------------------------------------------------------------------
-    OutputLines.prototype.import = function(data) {
+    OutputLines.prototype.import = function (data) {
         this._lines = data;
     };
     // -------------------------------------------------------------------------
-    OutputLines.prototype.push = function(data) {
+    OutputLines.prototype.push = function (data) {
         var value = data[0];
         var options = data[1];
         if (this.has_newline()) {
@@ -1713,8 +1713,8 @@
         }
     };
     // -------------------------------------------------------------------------
-    OutputLines.prototype.clear = function(fn) {
-        this._lines.forEach(function(line, i) {
+    OutputLines.prototype.clear = function (fn) {
+        this._lines.forEach(function (line, i) {
             var options = line[1];
             if (is_function(options.onClear)) {
                 options.onClear.call(self, fn(i));
@@ -1724,23 +1724,23 @@
         this._snapshot = [];
     };
     // -------------------------------------------------------------------------
-    OutputLines.prototype.data = function() {
+    OutputLines.prototype.data = function () {
         return this._lines;
     };
     // -------------------------------------------------------------------------
-    OutputLines.prototype.has_newline = function() {
+    OutputLines.prototype.has_newline = function () {
         if (this._lines.length === 0) {
             return true;
         }
         return this.last_line()[1].newline;
     };
     // -------------------------------------------------------------------------
-    OutputLines.prototype.last_line = function() {
+    OutputLines.prototype.last_line = function () {
         var len = this._lines.length;
         return this._lines[len - 1];
     };
     // -------------------------------------------------------------------------
-    OutputLines.prototype.update = function(index, value, options) {
+    OutputLines.prototype.update = function (index, value, options) {
         if (value === null) {
             this._lines.splice(index, 1);
         } else {
@@ -1752,15 +1752,15 @@
         }
     };
     // -------------------------------------------------------------------------
-    OutputLines.prototype.length = function() {
+    OutputLines.prototype.length = function () {
         return this._lines.length;
     };
     // -------------------------------------------------------------------------
-    OutputLines.prototype.valid_index = function(index) {
+    OutputLines.prototype.valid_index = function (index) {
         return !!this._lines[index];
     };
     // -------------------------------------------------------------------------
-    OutputLines.prototype.render = function(cols, fn) {
+    OutputLines.prototype.render = function (cols, fn) {
         var settings = this._settings();
         var lines_to_show = [];
         this._snapshot = [];
@@ -1774,7 +1774,7 @@
             } else {
                 limit = settings.outputLimit;
             }
-            this._lines.forEach(function(line, index) {
+            this._lines.forEach(function (line, index) {
                 var value = line[0];
                 var options = line[1];
                 lines_to_show.push({
@@ -1786,7 +1786,7 @@
             var pivot = lines_to_show.length - limit - 1;
             lines_to_show = lines_to_show.slice(pivot);
         } else {
-            lines_to_show = this._lines.map(function(line, index) {
+            lines_to_show = this._lines.map(function (line, index) {
                 return {
                     value: line[0],
                     index: index,
@@ -1836,11 +1836,11 @@
         return data;
     };
     // -------------------------------------------------------------------------
-    FormatBuffer.prototype.empty = function() {
+    FormatBuffer.prototype.empty = function () {
         return !this._output_buffer.length;
     };
     // -------------------------------------------------------------------------
-    FormatBuffer.prototype.append = function(arg, index, options, raw) {
+    FormatBuffer.prototype.append = function (arg, index, options, raw) {
         this._settings = $.extend({
             useCache: true
         }, this._options(options));
@@ -1851,7 +1851,7 @@
             var raw_lines = raw.split('\n');
             for (var i = 0, len = arg.length; i < len; ++i) {
                 if (arg[i] === '' || arg[i] === '\r') {
-                    this._output_buffer.push({line: '', raw: ''});
+                    this._output_buffer.push({ line: '', raw: '' });
                 } else {
                     var formatted = this.format(arg[i], i === len - 1, raw_lines[i]);
                     this._output_buffer.push(formatted);
@@ -1860,7 +1860,7 @@
         } else if (!options.raw) {
             this._output_buffer.push(this.format(arg, false, raw));
         } else {
-            this._output_buffer.push({line: arg, raw: raw});
+            this._output_buffer.push({ line: arg, raw: raw });
         }
         this._output_buffer.push({
             finalize: options.finalize,
@@ -1869,25 +1869,25 @@
         });
     };
     // -------------------------------------------------------------------------
-    FormatBuffer.prototype.clear_cache = function() {
+    FormatBuffer.prototype.clear_cache = function () {
         if (this._format_cache) {
             this._format_cache.clear();
         }
     };
     // -------------------------------------------------------------------------
-    FormatBuffer.prototype.output = function() {
+    FormatBuffer.prototype.output = function () {
         return this._output_buffer.slice();
     };
     // -------------------------------------------------------------------------
-    FormatBuffer.prototype.is_empty = function() {
+    FormatBuffer.prototype.is_empty = function () {
         return !this._output_buffer.length;
     };
     // -------------------------------------------------------------------------
-    FormatBuffer.prototype.clear = function() {
+    FormatBuffer.prototype.clear = function () {
         this._output_buffer = [];
     };
     // -------------------------------------------------------------------------
-    FormatBuffer.prototype.forEach = function(fn) {
+    FormatBuffer.prototype.forEach = function (fn) {
         var i = 0;
         while (i < this._output_buffer.length) {
             var data = this._output_buffer[i++];
@@ -1899,7 +1899,7 @@
         }
     };
     // -------------------------------------------------------------------------
-    FormatBuffer.prototype.flush = function(render) {
+    FormatBuffer.prototype.flush = function (render) {
         this.forEach(render);
         this.clear();
     };
@@ -1924,7 +1924,7 @@
                 break;
             case 'function':
                 try {
-                    var ret = prompt.call(context, function(string) {
+                    var ret = prompt.call(context, function (string) {
                         done(string);
                     });
                     if (typeof ret === 'string') {
@@ -1966,7 +1966,7 @@
             tabs: 4
         }
     };
-    $.fn.cmd = function(options) {
+    $.fn.cmd = function (options) {
         var settings = $.extend({}, $.cmd.defaults, options);
         function mobile_ignore_key(key) {
             return settings.mobileIngoreAutoSpace.length &&
@@ -1982,12 +1982,12 @@
         var wrapper = $('<div class="cmd-wrapper"/>').appendTo(self);
         wrapper.append('<span class="cmd-prompt"></span>');
         wrapper.append('<div class="cmd-cursor-line">' +
-                       '<span></span>' +
-                       '<span class="cmd-cursor">' +
-                       '<span data-text class="end"><span>&nbsp;</span></span>' +
-                       '</span>' +
-                       '<span></span>' +
-                       '</div>');
+            '<span></span>' +
+            '<span class="cmd-cursor">' +
+            '<span data-text class="end"><span>&nbsp;</span></span>' +
+            '</span>' +
+            '<span></span>' +
+            '</div>');
         var cursor_line = wrapper.find('.cmd-cursor-line');
         // a11y: don't read command it's in textarea that's in focus
         a11y_hide(cursor_line);
@@ -1996,7 +1996,7 @@
         //self.append('<span class="mask"></mask>');
         var clip;
         if (is_mobile) {
-            clip = (function() {
+            clip = (function () {
                 var $node = $('<div class="cmd-editable"/>').attr({
                     contenteditable: 'plaintext-only',
                     autocapitalize: 'off',
@@ -2004,37 +2004,37 @@
                     spellcheck: 'false',
                     tabindex: settings.tabindex
                 }).insertAfter(self);
-                $node.on('focus', function() {
+                $node.on('focus', function () {
                     self.enable();
-                }).on('blur', function() {
+                }).on('blur', function () {
                     self.disable();
                 });
                 var timer;
                 var clip = {
                     $node: $node,
-                    val: function(value) {
+                    val: function (value) {
                         if (typeof value === 'undefined') {
                             return $node.text();
                         } else {
                             $node.html(value);
                         }
                     },
-                    reset: function() {
+                    reset: function () {
                         clearTimeout(timer);
-                        timer = setTimeout(function() {
+                        timer = setTimeout(function () {
                             $node.css({
                                 top: '',
                                 bottom: ''
                             });
                         }, 400);
                     },
-                    focus: function() {
+                    focus: function () {
                         css($node[0], {
                             top: 'calc(var(--terminal-scroll, 0) * 1px)'
                         });
                         clip.reset();
                     },
-                    blur: function() {
+                    blur: function () {
                         $node.css({
                             top: '100%',
                             bottom: 0
@@ -2048,7 +2048,7 @@
             })();
             self.addClass('cmd-mobile');
         } else {
-            clip = (function() {
+            clip = (function () {
                 var id = generate_id();
                 var $node = $('<textarea>').attr({
                     autocapitalize: 'off',
@@ -2058,10 +2058,10 @@
                 }).addClass('cmd-clipboard').appendTo(self);
                 // some a11y to make lighthouse happy
                 $node.before('<label class="visually-hidden" for="' + id + '">' +
-                             'Clipbard textarea for jQuery Terminal</label>');
+                    'Clipbard textarea for jQuery Terminal</label>');
                 return {
                     $node: $node,
-                    val: function(value) {
+                    val: function (value) {
                         // even if value is undeifned
                         // when calling val(value) it return jQuery object
                         if (typeof value === 'undefined') {
@@ -2255,9 +2255,9 @@
             keycodes[i] = [letter.toLowerCase(), letter.toUpperCase()];
         }
         var reversed_keycodes = {};
-        Object.keys(keycodes).forEach(function(which) {
+        Object.keys(keycodes).forEach(function (which) {
             if (is_array(keycodes[which])) {
-                keycodes[which].forEach(function(key) {
+                keycodes[which].forEach(function (key) {
                     reversed_keycodes[key.toUpperCase()] = which;
                 });
             } else {
@@ -2267,17 +2267,17 @@
         // -----------------------------------------------------------------
         var keymap;
         var default_keymap = {
-            'ALT+D': delete_forward({clipboard: true}),
-            'HOLD+ALT+D': delete_forward({clipboard: true, hold: true}),
-            'HOLD+DELETE': delete_forward({clipboard: false, hold: true}),
-            'HOLD+SHIFT+DELETE': delete_forward({clipboard: false, hold: true}),
-            'ENTER': function() {
+            'ALT+D': delete_forward({ clipboard: true }),
+            'HOLD+ALT+D': delete_forward({ clipboard: true, hold: true }),
+            'HOLD+DELETE': delete_forward({ clipboard: false, hold: true }),
+            'HOLD+SHIFT+DELETE': delete_forward({ clipboard: false, hold: true }),
+            'ENTER': function () {
                 if (history && command && !settings.mask &&
                     ((is_function(settings.historyFilter) &&
-                      settings.historyFilter(command)) ||
-                     (settings.historyFilter instanceof RegExp &&
-                      command.match(settings.historyFilter)) ||
-                     !settings.historyFilter)) {
+                        settings.historyFilter(command)) ||
+                        (settings.historyFilter instanceof RegExp &&
+                            command.match(settings.historyFilter)) ||
+                        !settings.historyFilter)) {
                     history.append(command);
                 }
                 var tmp = command;
@@ -2305,20 +2305,20 @@
                 clip.$node.focus();
                 return false;
             },
-            'SHIFT+ENTER': function() {
+            'SHIFT+ENTER': function () {
                 self.insert('\n');
                 return true;
             },
             'BACKSPACE': backspace_key,
             'SHIFT+BACKSPACE': backspace_key,
-            'TAB': function() {
+            'TAB': function () {
                 self.insert('\t');
             },
-            'CTRL+D': function() {
+            'CTRL+D': function () {
                 self['delete'](1);
                 return false;
             },
-            'DELETE': function() {
+            'DELETE': function () {
                 self['delete'](1);
                 return true;
             },
@@ -2333,7 +2333,7 @@
             'ARROWLEFT': left,
             'HOLD+ARROWLEFT': debounce(left, 10),
             'CTRL+B': left,
-            'CTRL+ARROWLEFT': function() {
+            'CTRL+ARROWLEFT': function () {
                 // jump to one character after last space before prevoius word
                 var len = position - 1;
                 var pos = 0;
@@ -2345,14 +2345,14 @@
                         pos = i + 1;
                         break;
                     } else if (command[i] === '\n' &&
-                               command[i + 1] !== '\n') {
+                        command[i + 1] !== '\n') {
                         pos = i;
                         break;
                     }
                 }
                 self.position(pos);
             },
-            'CTRL+R': function() {
+            'CTRL+R': function () {
                 if (reverse_search) {
                     reverse_history_search(true);
                 } else {
@@ -2365,7 +2365,7 @@
                 }
                 return false;
             },
-            'CTRL+G': function() {
+            'CTRL+G': function () {
                 if (reverse_search) {
                     prompt = backup_prompt;
                     draw_prompt();
@@ -2379,7 +2379,7 @@
             'ARROWRIGHT': right,
             'HOLD+ARROWRIGHT': debounce(right, 10),
             'CTRL+F': right,
-            'CTRL+ARROWRIGHT': function() {
+            'CTRL+ARROWRIGHT': function () {
                 // jump to beginning or end of the word
                 if (command[position] === ' ') {
                     ++position;
@@ -2407,28 +2407,28 @@
             'CTRL+A': home(),
             'SHIFT+INSERT': paste_event,
             'CTRL+SHIFT+T': return_true, // open closed tab
-            'CTRL+W': delete_backward({clipboard: true, hold: false}),
-            'HOLD+BACKSPACE': delete_backward({clipboard: false, hold: true}),
-            'HOLD+SHIFT+BACKSPACE': delete_backward({clipboard: false, hold: true}),
-            'CTRL+H': function() {
+            'CTRL+W': delete_backward({ clipboard: true, hold: false }),
+            'HOLD+BACKSPACE': delete_backward({ clipboard: false, hold: true }),
+            'HOLD+SHIFT+BACKSPACE': delete_backward({ clipboard: false, hold: true }),
+            'CTRL+H': function () {
                 if (command !== '' && position > 0) {
                     self['delete'](-1);
                 }
                 return false;
             },
             'CTRL+X': return_true,
-            'CTRL+C': function() {
+            'CTRL+C': function () {
                 return get_selected_html() === '';
             },
             'CTRL+T': return_true,
-            'CTRL+Y': function() {
+            'CTRL+Y': function () {
                 if (kill_text !== '') {
                     self.insert(kill_text);
                 }
             },
             'CTRL+V': paste_event,
             'META+V': paste_event,
-            'CTRL+K': function() {
+            'CTRL+K': function () {
                 var len = text(command).length;
                 if (len > position) {
                     kill_text = self['delete'](len - position);
@@ -2436,14 +2436,14 @@
                 }
                 return false;
             },
-            'CTRL+U': function() {
+            'CTRL+U': function () {
                 if (command !== '' && position !== 0) {
                     kill_text = self['delete'](-position);
                     text_to_clipboard(clip.$node, kill_text);
                 }
                 return false;
             },
-            'CTRL+TAB': function() {
+            'CTRL+TAB': function () {
                 return false;
             },
             'META+`': return_true, // CMD+` switch browser window on Mac
@@ -2471,7 +2471,7 @@
                 }
                 self.set(
                     command.slice(0, position) +
-                        command.slice(position).replace(re, ''),
+                    command.slice(position).replace(re, ''),
                     true
                 );
                 // chrome jump to address bar
@@ -2531,7 +2531,7 @@
             }
             if (self.isenabled()) {
                 //wait until Browser insert text to textarea
-                self.oneTime(100, function() {
+                self.oneTime(100, function () {
                     var value = clip.val().replace(/\r/g, '');
                     if (is_function(settings.onPaste)) {
                         var ret = settings.onPaste.call(self, {
@@ -2580,13 +2580,13 @@
         }
         // -------------------------------------------------------------------------------
         function have_wrapping(string, prompt_len) {
-            var lengths = string.split('\n').map(function(line) {
+            var lengths = string.split('\n').map(function (line) {
                 return $.terminal.length(line);
             });
             if (prompt_len) {
                 lengths[0] += prompt_len;
             }
-            var wrap = lengths.filter(function(len) {
+            var wrap = lengths.filter(function (len) {
                 return len >= num_chars;
             });
             return !!wrap.length;
@@ -2694,7 +2694,7 @@
             // for next input after naitve backspace
             // we need timeout because we don't want it to trigger
             // for current input but next one
-            self.oneTime(1, function() {
+            self.oneTime(1, function () {
                 no_keydown = true;
             });
         }
@@ -2717,7 +2717,7 @@
                 self.position(0);
             }
             if (line) {
-                return function() {
+                return function () {
                     if (command.match(/\n/)) {
                         var string = command.substring(0, self.position());
                         self.position(string.lastIndexOf('\n') + 1);
@@ -2735,7 +2735,7 @@
                 self.position(text(command).length);
             }
             if (line) {
-                return function() {
+                return function () {
                     if (command.match(/\n/)) {
                         var lines = command.split('\n');
                         var pos = self.position();
@@ -2763,7 +2763,7 @@
                 if (!focus) {
                     //clip.trigger('focus', [true]);
                 }
-                self.oneTime(10, function() {
+                self.oneTime(10, function () {
                     if (!$clip.is(':focus') && enabled) {
                         $clip.trigger('focus', [true]);
                     }
@@ -2807,14 +2807,14 @@
                 return;
             }
             // delay worked while experimenting
-            self.oneTime(10, function() {
+            self.oneTime(10, function () {
                 // we use space before command to show select all context menu
                 // idea taken from CodeMirror
                 if (!is_mobile && clip.val() !== command && !position_only) {
                     clip.val(' ' + command);
                 }
                 if (enabled) {
-                    self.oneTime(10, function() {
+                    self.oneTime(10, function () {
                         try {
                             var pos = !is_mobile ? position + 1 : position;
                             // we check first to improve performance
@@ -2833,14 +2833,14 @@
         // 2 properties
         // -------------------------------------------------------------------------------
         if (animation_supported && !is_android) {
-            animation = function(toggle) {
+            animation = function (toggle) {
                 if (toggle) {
                     cursor.addClass('cmd-blink');
                 } else {
                     cursor.removeClass('cmd-blink');
                 }
             };
-            restart_animation = function() {
+            restart_animation = function () {
                 var new_cursor = cursor.clone();
                 new_cursor.insertBefore(cursor);
                 cursor.remove();
@@ -2848,7 +2848,7 @@
             };
         } else {
             var animating = false;
-            animation = function(toggle) {
+            animation = function (toggle) {
                 if (toggle && !animating) {
                     animating = true;
                     cursor.addClass('cmd-inverted cmd-blink');
@@ -2859,7 +2859,7 @@
                     cursor.removeClass('cmd-inverted cmd-blink');
                 }
             };
-            restart_animation = function() {
+            restart_animation = function () {
                 animation(false);
                 animation(true);
             };
@@ -2953,7 +2953,7 @@
             function skip_empty(array) {
                 // we remove lines that are leftovers after adding space at the end
                 var result = [];
-                array.forEach(function(line, i) {
+                array.forEach(function (line, i) {
                     if ($.terminal.strip(line).match(empty_marker_re)) {
                         result[i] = false;
                         // lines that will get removed need line ending on previos
@@ -2965,7 +2965,7 @@
                         result[i] = array[i];
                     }
                 });
-                return result.filter(function(line) {
+                return result.filter(function (line) {
                     return line !== false;
                 });
             }
@@ -3021,7 +3021,7 @@
         }
         // ---------------------------------------------------------------------
         var cmd_line_worker = new WorkerCache({
-            validation: function(key) {
+            validation: function (key) {
                 var result = false;
                 if ((!this._previous_value || this._previous_value === key) &&
                     (!this._cols || this._cols === num_chars)) {
@@ -3116,7 +3116,7 @@
         // :: Function that displays the command line. Split long lines and
         // :: place cursor in the right place
         // ---------------------------------------------------------------------
-        var redraw = (function() {
+        var redraw = (function () {
             var before = cursor.prev();
             var after = cursor.next();
             var cursor_line = cursor.parent();
@@ -3213,7 +3213,7 @@
             // -----------------------------------------------------------------
             function lines_after(lines) {
                 var last_ins = cursor_line;
-                $.each(lines, function(i, line) {
+                $.each(lines, function (i, line) {
                     last_ins = $(div(line)).insertAfter(last_ins);
                 });
             }
@@ -3221,14 +3221,14 @@
             // :: Display lines before the cursor
             // -----------------------------------------------------------------
             function lines_before(lines) {
-                $.each(lines, function(i, line) {
+                $.each(lines, function (i, line) {
                     cursor_line.before(div(line, i === 0 ? prompt_last_line : ''));
                 });
             }
             // -----------------------------------------------------------------
             // :: Redraw function
             // -----------------------------------------------------------------
-            return function() {
+            return function () {
                 var string;
                 switch (typeof settings.mask) {
                     case 'boolean':
@@ -3260,7 +3260,7 @@
                     }
                     var array = split_command_line(formatted);
                     if (tabs) {
-                        array = $.map(array, function(line) {
+                        array = $.map(array, function (line) {
                             return line.replace(/\x00\x00\x00\x00/g, '\t');
                         });
                     }
@@ -3367,7 +3367,7 @@
         // :: find position that match display position for commands that
         // :: change length by formatters
         // ---------------------------------------------------------------------
-        var find_position = (function() {
+        var find_position = (function () {
             function make_guess(string, position) {
                 var opts = $.extend({}, settings, {
                     position: position,
@@ -3389,7 +3389,7 @@
                     return -1;
                 }
             }
-            return function(string, formatted_position) {
+            return function (string, formatted_position) {
                 if (formatted_position === 0) {
                     return 0;
                 }
@@ -3414,18 +3414,18 @@
         // :: Draw prompt that can be a function or a string
         // ---------------------------------------------------------------------
         var prev_prompt_data;
-        var draw_prompt = (function() {
+        var draw_prompt = (function () {
             function format_prompt(prompt) {
                 if (!prompt) {
                     just_prompt_len = 0;
                     prompt_len = just_prompt_len + extra_prompt_margin;
                     return prompt;
                 }
-                var lines = $.terminal.split_equal(prompt, num_chars).map(function(line) {
+                var lines = $.terminal.split_equal(prompt, num_chars).map(function (line) {
                     if (!$.terminal.have_formatting(line)) {
                         return '[[;;]' + $.terminal.escape_brackets(line) + ']';
                     }
-                    return $.terminal.format_split(line).map(function(str) {
+                    return $.terminal.format_split(line).map(function (str) {
                         if ($.terminal.is_formatting(str)) {
                             return str;
                         }
@@ -3442,18 +3442,18 @@
                 var last_line = $.terminal.format(encoded_last_line, options);
                 just_prompt_len = strlen(text(encoded_last_line));
                 prompt_len = just_prompt_len + extra_prompt_margin;
-                return lines.slice(0, -1).map(function(line) {
+                return lines.slice(0, -1).map(function (line) {
                     line = $.terminal.encode(line, {
                         tabs: settings.tabs
                     });
                     return '<span class="cmd-line">' +
-                           $.terminal.format(line, options) +
-                           '</span>';
+                        $.terminal.format(line, options) +
+                        '</span>';
                 }).concat([last_line]).join('\n');
             }
             function set(prompt) {
                 if (prompt) {
-                    prompt = $.terminal.apply_formatters(prompt, {prompt: true});
+                    prompt = $.terminal.apply_formatters(prompt, { prompt: true });
                     prompt = $.terminal.normalize(prompt);
                     prompt = crlf(prompt);
                 }
@@ -3471,7 +3471,7 @@
                     clip.$node.attr('data-cmd-prompt', prompt_node.text());
                     if (is_ch_unit_supported) {
                         prompt_node.hide();
-                        spans.each(function() {
+                        spans.each(function () {
                             var self = $(this);
                             var len = strlen(self.text());
                             if (len === 0) {
@@ -3484,7 +3484,7 @@
                     }
                 }
             }
-            return function() {
+            return function () {
                 // the data is used as cancelable reference because we have ref
                 // data object that is hold in closure and we remove `set` function
                 // so previous call to function prompt will be ignored
@@ -3496,7 +3496,7 @@
                 var data = prev_prompt_data = {
                     set: set
                 };
-                with_prompt(prompt, function(prompt) {
+                with_prompt(prompt, function (prompt) {
                     data.set(prompt);
                 }, self);
             };
@@ -3511,7 +3511,7 @@
         // :: Command Line Methods
         // ---------------------------------------------------------------------
         $.extend(self, {
-            option: function(name, value) {
+            option: function (name, value) {
                 if (typeof value === 'undefined') {
                     return settings[name];
                 } else {
@@ -3519,7 +3519,7 @@
                 }
                 return self;
             },
-            name: function(string) {
+            name: function (string) {
                 if (string !== undefined) {
                     name = string;
                     var enabled = history && history.enabled() || !history;
@@ -3537,14 +3537,14 @@
                     return name;
                 }
             },
-            purge: function() {
+            purge: function () {
                 history.clear();
                 return self;
             },
-            history: function() {
+            history: function () {
                 return history;
             },
-            'delete': function(n, stay) {
+            'delete': function (n, stay) {
                 var removed, string;
                 if (n === 0) {
                     return "";
@@ -3576,7 +3576,7 @@
                 fire_change_command();
                 return removed;
             },
-            set: function(string, stay, silent) {
+            set: function (string, stay, silent) {
                 if (string !== undefined) {
                     command = string;
                     if (!stay) {
@@ -3590,13 +3590,13 @@
                 }
                 return self;
             },
-            keymap: function(new_keymap, value) {
+            keymap: function (new_keymap, value) {
                 function wrap(key, fn) {
                     var original = default_keymap[key];
                     if (is_function(original)) {
                         original = original.bind(self);
                     }
-                    return function(e) {
+                    return function (e) {
                         // new keymap function will get default as 2nd argument
                         return fn.call(self, e, original);
                     };
@@ -3625,7 +3625,7 @@
                     return self;
                 }
             },
-            insert: function(string, stay) {
+            insert: function (string, stay) {
                 var bare_command = bare_text(command);
                 var len = bare_text(string).length;
                 if (position === bare_command.length) {
@@ -3645,10 +3645,10 @@
                 fire_change_command();
                 return self;
             },
-            get: function() {
+            get: function () {
                 return command;
             },
-            commands: function(commands) {
+            commands: function (commands) {
                 if (commands) {
                     settings.commands = commands;
                     return self;
@@ -3656,7 +3656,7 @@
                     return commands;
                 }
             },
-            destroy: function() {
+            destroy: function () {
                 doc.unbind('keypress.cmd', keypress_event);
                 doc.unbind('keydown.cmd', keydown_event);
                 doc.unbind('input.cmd', input_event);
@@ -3666,7 +3666,7 @@
                 self.removeClass('cmd').removeData('cmd').off('.cmd');
                 return self;
             },
-            column: function(include_prompt) {
+            column: function (include_prompt) {
                 var before = command.substring(0, position);
                 if (position === 0 || !command.length) {
                     return 0;
@@ -3687,7 +3687,7 @@
                 }
                 return col;
             },
-            line: function() {
+            line: function () {
                 var before = command.substring(0, position);
                 if (position === 0 || !command.length) {
                     return 0;
@@ -3695,11 +3695,11 @@
                 return before.split(/\n/).length - 1;
             },
             // inform cursor about size of partial output line
-            __set_prompt_margin: function(len) {
+            __set_prompt_margin: function (len) {
                 extra_prompt_margin = len;
                 prompt_len = just_prompt_len + extra_prompt_margin;
             },
-            prompt: function(user_prompt) {
+            prompt: function (user_prompt) {
                 if (user_prompt === true) {
                     return last_rendered_prompt;
                 } else if (user_prompt === undefined) {
@@ -3721,10 +3721,10 @@
                     return self;
                 }
             },
-            kill_text: function() {
+            kill_text: function () {
                 return kill_text;
             },
-            position: function(n, relative, silent) {
+            position: function (n, relative, silent) {
                 if (typeof n === 'number') {
                     var pos = position;
                     var len = bare_text(command).length;
@@ -3749,7 +3749,7 @@
                     return position;
                 }
             },
-            refresh: function() {
+            refresh: function () {
                 draw_prompt();
                 redraw();
                 fix_textarea(true);
@@ -3757,7 +3757,7 @@
             },
             // if formatter change length of the strings (like emoji demo) we need to keep
             // track of two different positions one for command and one for display
-            display_position: function(n, relative) {
+            display_position: function (n, relative) {
                 if (n === undefined) {
                     return formatted_position;
                 } else {
@@ -3789,25 +3789,25 @@
                     return self;
                 }
             },
-            visible: (function() {
+            visible: (function () {
                 var visible = self.visible;
-                return function() {
+                return function () {
                     visible.apply(self, []);
                     redraw();
                     draw_prompt();
                     return self;
                 };
             })(),
-            show: (function() {
+            show: (function () {
                 var show = self.show;
-                return function() {
+                return function () {
                     show.apply(self, []);
                     redraw();
                     draw_prompt();
                     return self;
                 };
             })(),
-            resize: function(num) {
+            resize: function (num) {
                 char_width = get_char_width();
                 var new_num_chars;
                 if (typeof num === 'number') {
@@ -3822,7 +3822,7 @@
                 }
                 return self;
             },
-            invoke_key: function(shortcut) {
+            invoke_key: function (shortcut) {
                 if (!enabled) {
                     warn('invoke_key("' + shortcut + '") called on disabled terminal');
                 }
@@ -3848,10 +3848,10 @@
                 doc.trigger(e);
                 return self;
             },
-            clip: function() {
+            clip: function () {
                 return clip;
             },
-            enable: function(silent) {
+            enable: function (silent) {
                 if (!enabled) {
                     enabled = true;
                     self.addClass('enabled');
@@ -3873,10 +3873,10 @@
                 mobile_focus();
                 return self;
             },
-            isenabled: function() {
+            isenabled: function () {
                 return enabled;
             },
-            disable: function(focus) {
+            disable: function (focus) {
                 enabled = false;
                 self.removeClass('enabled');
                 animation(false);
@@ -3885,7 +3885,7 @@
                 }
                 return self;
             },
-            mask: function(new_mask) {
+            mask: function (new_mask) {
                 if (typeof new_mask === 'undefined') {
                     return settings.mask;
                 } else {
@@ -3970,7 +3970,7 @@
                     no_key = String(e.key).toLowerCase() === 'unidentified';
                     backspace = is_backspace(e);
                 }
-            } catch (exception) {}
+            } catch (exception) { }
             // keydown created in input will have text already inserted and we
             // want text before input
             if (e.key === "Unidentified") {
@@ -4014,12 +4014,12 @@
                     }
                     if (settings.holdRepeatTimeout > 0 && is_delay_key(key)) {
                         hold_pause = true;
-                        self.oneTime(settings.holdRepeatTimeout, 'delay', function() {
+                        self.oneTime(settings.holdRepeatTimeout, 'delay', function () {
                             hold_pause = false;
                         });
                     }
                 } else {
-                    self.oneTime(settings.holdTimeout, 'hold', function() {
+                    self.oneTime(settings.holdTimeout, 'hold', function () {
                         hold = true;
                     });
                     prev_key = key;
@@ -4132,8 +4132,8 @@
                     return false;
                     // which === 100 - d
                 } else if (key && (!e.ctrlKey || (e.ctrlKey && e.ctrlKey)) &&
-                           (!(e.altKey && e.which === 100) || e.altKey) &&
-                           !dead_key) {
+                    (!(e.altKey && e.which === 100) || e.altKey) &&
+                    !dead_key) {
                     // dead_key are handled by input event
                     if (reverse_search) {
                         rev_search_str += key;
@@ -4160,8 +4160,8 @@
         }
         function input_event() {
             debug('input ' + no_keydown + ' || ' + process + ' ((' + no_keypress +
-                  ' || ' + dead_key + ') && !' + skip_insert + ' && (' + single_key +
-                  ' || ' + no_key + ') && !' + backspace + ')');
+                ' || ' + dead_key + ') && !' + skip_insert + ' && (' + single_key +
+                ' || ' + no_key + ') && !' + backspace + ')');
             // correct for fake space used for select all context menu hack
             var val = clip.val();
             if (!is_mobile) {
@@ -4171,8 +4171,8 @@
             // if there is dead_key we also need to grab real character #158
             // Firefox/Android with google keyboard don't fire keydown and keyup #319
             if (no_keydown || process || ((no_keypress || dead_key) &&
-                                          !skip_insert &&
-                                          (single_key || no_key) && !backspace)) {
+                !skip_insert &&
+                (single_key || no_key) && !backspace)) {
                 if (val && val === command) {
                     if (is_android) {
                         // ignore autocomplete on GBoard keyboard #693
@@ -4245,9 +4245,9 @@
         doc.bind('keydown.cmd', keydown_event);
         doc.bind('keyup.cmd', clear_hold);
         doc.bind('input.cmd', input_event);
-        (function() {
+        (function () {
             if (is_mobile) {
-                $(self[0]).add(clip.$node).on('touchstart.cmd', function() {
+                $(self[0]).add(clip.$node).on('touchstart.cmd', function () {
                     if (!self.isenabled()) {
                         clip.focus();
                     } else {
@@ -4259,9 +4259,9 @@
             }
             var was_down = false;
             var count = 0;
-            self.on('mousedown.cmd', function() {
+            self.on('mousedown.cmd', function () {
                 was_down = true;
-            }).on('mouseup.cmd', function(e) {
+            }).on('mouseup.cmd', function (e) {
                 function trigger() {
                     var $target = $(e.target);
                     var is_prompt = $target.is('.cmd-prompt');
@@ -4306,17 +4306,17 @@
         })();
         self.data('cmd', self);
         if (!('KeyboardEvent' in window && 'key' in window.KeyboardEvent.prototype)) {
-            setTimeout(function() {
+            setTimeout(function () {
                 throw new Error('key event property not supported try https://github.' +
-                                'com/inexorabletash/polyfill/blob/master/keyboard.js');
+                    'com/inexorabletash/polyfill/blob/master/keyboard.js');
             }, 0);
         }
         return self;
     }; // cmd plugin
     // -------------------------------------------------------------------------
-    var strlen = (function() {
+    var strlen = (function () {
         if (typeof wcwidth === 'undefined') {
-            return function(string) {
+            return function (string) {
                 // fix empty prompt that use 0 width space
                 string = string.replace(/\u200B/g, '');
                 return $.terminal.length(string);
@@ -4330,7 +4330,7 @@
         var count = 0;
         if ($.terminal.have_formatting(string)) {
             var re = new RegExp(format_parts_re.source, 'i'); // without g flag
-            $.terminal.format_split(string).forEach(function(str) {
+            $.terminal.format_split(string).forEach(function (str) {
                 if ($.terminal.is_formatting(str)) {
                     var m = str.match(re);
                     if (m && m[1].match(/@/) && m[6] === '') {
@@ -4587,10 +4587,10 @@
     };
     // -------------------------------------------------------------------------
     function render_entities(str) {
-        return str.replace(/&#(x?)([0-9]+);/g, function(_, hex, code) {
+        return str.replace(/&#(x?)([0-9]+);/g, function (_, hex, code) {
             code = parseInt(code, hex ? 16 : 10);
             return String.fromCharCode(code);
-        }).replace(/(&[^;]+;)/g, function(_, entity) {
+        }).replace(/(&[^;]+;)/g, function (_, entity) {
             return entities[entity] || entity;
         });
     }
@@ -4623,7 +4623,7 @@
     }
     // -------------------------------------------------------------------------
     function make_re_fn(re) {
-        return function(string) {
+        return function (string) {
             var m = string.match(re);
             if (starts_with(m)) {
                 return m[1];
@@ -4647,13 +4647,13 @@
             entity_re,
             emoji_re,
             combine_chr_re
-        ].forEach(function(re) {
+        ].forEach(function (re) {
             if (string.match(re)) {
                 tests.push(make_re_fn(re));
             }
         });
         if (string.match(astral_symbols_re)) {
-            tests.push(function(string) {
+            tests.push(function (string) {
                 var m1 = string.match(astral_symbols_re);
                 if (starts_with(m1)) {
                     var m2 = string.match(combine_chr_re);
@@ -4664,7 +4664,7 @@
                 }
             });
         }
-        return function(string) {
+        return function (string) {
             for (var i = 0; i < tests.length; ++i) {
                 var test = tests[i];
                 var ret = test(string);
@@ -4714,7 +4714,7 @@
             return position;
         }
         string = $.terminal.strip(string);
-        var result = $.terminal.split_characters(string).reduce(function(acc, chr) {
+        var result = $.terminal.split_characters(string).reduce(function (acc, chr) {
             if (typeof acc === 'number') {
                 return acc;
             }
@@ -4726,7 +4726,7 @@
                 position: acc.position + 1,
                 length: length
             };
-        }, {position: 0, length: 0});
+        }, { position: 0, length: 0 });
         if (typeof result === 'number') {
             return result;
         } else {
@@ -4768,12 +4768,12 @@
             if (chars.length === 1) {
                 return text;
             }
-            var specs = chars.map(function(chr) {
+            var specs = chars.map(function (chr) {
                 return {
                     len: strlen(chr),
                     chr: chr
                 };
-            }).reduce(function(arr, spec) {
+            }).reduce(function (arr, spec) {
                 var last = arr[arr.length - 1];
                 if (last) {
                     if (last.len !== spec.len) {
@@ -4797,7 +4797,7 @@
                     len: spec.len
                 }];
             }, []);
-            return specs.map(function(spec) {
+            return specs.map(function (spec) {
                 if (spec.len === 1) {
                     return make_string(spec);
                 }
@@ -4805,7 +4805,7 @@
                 if (spec.sum === chars.length || !style.length) {
                     return '<span>' + make_string(spec) + '</span>';
                 } else if (spec.specs.length > 1) {
-                    return wrap(style, spec.specs.map(function(spec) {
+                    return wrap(style, spec.specs.map(function (spec) {
                         return wrap(char_width_prop(spec.len), spec.chr);
                     }).join(''));
                 } else {
@@ -4814,7 +4814,7 @@
             }).join('');
         }
         function make_string(spec) {
-            return spec.specs.map(function(spec) {
+            return spec.specs.map(function (spec) {
                 return spec.chr;
             }).join('');
         }
@@ -4900,7 +4900,7 @@
         fn(html);
         if (ranges.length) {
             selection.removeAllRanges();
-            ranges.forEach(function(range) {
+            ranges.forEach(function (range) {
                 selection.addRange(range);
             });
         }
@@ -4928,7 +4928,7 @@
         var $html = $('<div>' + html + '</div>');
         if (html.match(/<\/div>/)) {
             // match multiple echo output
-            stdout = $html.find('div[data-index]').map(function() {
+            stdout = $html.find('div[data-index]').map(function () {
                 return process_div(this);
             }).get().join('\n');
             // match inside single echo output
@@ -4956,7 +4956,7 @@
     // ---------------------------------------------------------------------
     // :: copy given DOM element text to clipboard
     // ---------------------------------------------------------------------
-    var support_copy = (function() {
+    var support_copy = (function () {
         if (typeof document === 'undefined') {
             return false;
         }
@@ -4998,7 +4998,7 @@
         text_to_clipboard = $.noop;
     }
     // ---------------------------------------------------------------------
-    var get_textarea_selection = (function() {
+    var get_textarea_selection = (function () {
         function noop() {
             return '';
         }
@@ -5009,12 +5009,12 @@
         var selectionStart = 'selectionStart' in textarea;
         textarea = null;
         if (selectionStart) {
-            return function(textarea) {
+            return function (textarea) {
                 var length = textarea.selectionEnd - textarea.selectionStart;
                 return textarea.value.substr(textarea.selectionStart, length);
             };
         } else if (document.selection) {
-            return function() {
+            return function () {
                 var range = document.selection.createRange();
                 return range.text();
             };
@@ -5072,21 +5072,21 @@
     }
     // ---------------------------------------------------------------------
     function trigger_terminal_change(next) {
-        terminals.forEach(function(term) {
+        terminals.forEach(function (term) {
             term.settings().onTerminalChange.call(term, next);
         });
     }
     // ---------------------------------------------------------------------
-    var select = (function() {
+    var select = (function () {
         if (root.getSelection) {
             var selection = root.getSelection();
             if (selection.setBaseAndExtent) {
-                return function(start, end) {
+                return function (start, end) {
                     var selection = root.getSelection();
                     selection.setBaseAndExtent(start, 0, end, 1);
                 };
             } else {
-                return function(start, end) {
+                return function (start, end) {
                     var selection = root.getSelection();
                     var range = document.createRange();
                     range.setStart(start, 0);
@@ -5105,7 +5105,7 @@
         var array = string.match(command_re) || [];
         if (array.length) {
             var name = array.shift();
-            var args = $.map(array, function(arg) {
+            var args = $.map(array, function (arg) {
                 if (arg.match(/^["']/)) {
                     arg = arg.replace(/\n/g, '\\u0000\\u0000\\u0000\\u0000');
                     arg = fn(arg);
@@ -5113,7 +5113,7 @@
                 }
                 return fn(arg);
             });
-            var quotes = $.map(array, function(arg) {
+            var quotes = $.map(array, function (arg) {
                 var m = arg.match(/^(['"`]).*\1$/);
                 return m && m[1] || '';
             });
@@ -5220,9 +5220,9 @@
                 !$.terminal.is_formatting(str);
         },
         // ---------------------------------------------------------------------
-        each_extended_command: function(string, fn) {
+        each_extended_command: function (string, fn) {
             var parts = string.split(format_exec_split_re);
-            return $.map(parts, function(string) {
+            return $.map(parts, function (string) {
                 if ($.terminal.is_extended_command(string)) {
                     var command = string.replace(/^\[\[|\]\]$/g, '');
                     return fn(command) || '';
@@ -5277,7 +5277,7 @@
                 if (typeof replacement === 'function') {
                     rep_string = replacement.apply(null, match);
                 } else {
-                    rep_string = replacement.replace(/\$(\$|\d)/g, function(m, c0) {
+                    rep_string = replacement.replace(/\$(\$|\d)/g, function (m, c0) {
                         if (c0 === "$") {
                             return "$";
                         }
@@ -5527,7 +5527,7 @@
                 }
                 return string;
             }
-            $.terminal.iterate_formatting(string, function(data) {
+            $.terminal.iterate_formatting(string, function (data) {
                 if (data.text) {
                     var text = [];
                     if (data.formatting) {
@@ -5559,7 +5559,7 @@
             var end_formatting = '';
             var prev_index;
             var offset = 1;
-            $.terminal.iterate_formatting(string, function(data) {
+            $.terminal.iterate_formatting(string, function (data) {
                 if (start_index && data.count === start_index + 1) {
                     start = data.index;
                     if (data.formatting) {
@@ -5596,7 +5596,7 @@
         // :: data attribute in format function - and fix unclosed &
         // ---------------------------------------------------------------------
         normalize: function normalize(string) {
-            string = string.replace(format_re, function(_, format, text) {
+            string = string.replace(format_re, function (_, format, text) {
                 if (format.match(self_closing_re) && text === '') {
                     return '[[' + format + '] ]';
                 }
@@ -5649,11 +5649,11 @@
                 var line_length = line.length;
                 var last_bracket = !!line.match(/\[\[[^\]]+\](?:[^\][]|\\\])+\]$/);
                 var leading_spaces = !!line.match(/^(&nbsp;|\s)/);
-                $.terminal.iterate_formatting(line, function(data) {
+                $.terminal.iterate_formatting(line, function (data) {
                     var chr, substring;
                     if (data.length >= length || data.last ||
                         (data.length === length - 1 &&
-                         strlen(line[data.index + 1]) === 2)) {
+                            strlen(line[data.index + 1]) === 2)) {
                         var can_break = false;
                         // TODO: this need work
                         if (keep_words && data.space !== -1) {
@@ -5713,7 +5713,7 @@
                         }
                         result.push(output);
                         // modify loop by returing new data
-                        return {index: new_index, length: 0, space: -1};
+                        return { index: new_index, length: 0, space: -1 };
                     }
                 });
             }
@@ -5734,12 +5734,12 @@
                 before: ''
             }, options);
             return $.terminal.amp(str).replace(/</g, '&lt;').replace(/>/g, '&gt;')
-                .replace(/ /g, '&nbsp;').split('\n').map(function(line) {
+                .replace(/ /g, '&nbsp;').split('\n').map(function (line) {
                     var splitted = line.split(/((?:\[\[[^\]]+\])?\t(?:\])?)/);
                     splitted = splitted.filter(Boolean);
-                    return splitted.map(function(str, i) {
+                    return splitted.map(function (str, i) {
                         if (str.match(/\t/)) {
-                            return str.replace(/\t([^\t]*)$/, function(_, end) {
+                            return str.replace(/\t([^\t]*)$/, function (_, end) {
                                 if (i !== 0 && splitted[i - 1].match(/\t\]?$/)) {
                                     var sp = new Array(settings.tabs + 1).join('&nbsp;');
                                     return sp + end;
@@ -5790,8 +5790,8 @@
             // ---------------------------------------------------------------------------
             function parse_style(string) {
                 var style = {};
-                string.split(/\s*;\s*/).forEach(function(string) {
-                    var parts = string.split(':').map(function(string) {
+                string.split(/\s*;\s*/).forEach(function (string) {
+                    var parts = string.split(':').map(function (string) {
                         return string.trim();
                     });
                     var prop = parts[0];
@@ -5814,18 +5814,18 @@
             }
             // ---------------------------------------------------------------------------
             function stringify_styles(input) {
-                var ignore = input.filter(function(s) {
+                var ignore = input.filter(function (s) {
                     return s[0] === '-';
-                }).map(function(s) {
+                }).map(function (s) {
                     return s[1];
                 });
-                return input.filter(function(s) {
+                return input.filter(function (s) {
                     return ignore.indexOf(s) === -1 && ignore.indexOf(s[1]) === -1;
                 }).join('');
             }
             // ---------------------------------------------------------------------------
             function stringify_attrs(attrs) {
-                return JSON.stringify(attrs, function(key, value) {
+                return JSON.stringify(attrs, function (key, value) {
                     if (key === 'style') {
                         return stringify_style(value);
                     }
@@ -5838,7 +5838,7 @@
             }
             // ---------------------------------------------------------------------------
             function stringify_style(style) {
-                return Object.keys(style).map(function(prop) {
+                return Object.keys(style).map(function (prop) {
                     return prop + ':' + style[prop];
                 }).join(';');
             }
@@ -5882,7 +5882,7 @@
                         formatting = formatting.slice(0, 5).concat(last);
                     }
                     var style = formatting[0].split(/(-?[@!gbiuso])/g).filter(Boolean);
-                    style.forEach(function(s) {
+                    style.forEach(function (s) {
                         if (output[0].indexOf(s) === -1) {
                             output[0].push(s);
                         }
@@ -5906,7 +5906,7 @@
                 }
                 return stringify_formatting(output);
             }
-            return string.split(re).filter(Boolean).map(function(string) {
+            return string.split(re).filter(Boolean).map(function (string) {
                 var style;
                 if (string.match(/^\[\[/) && !$.terminal.is_extended_command(string)) {
                     var formatting = string.replace(format_re, '$1');
@@ -5967,8 +5967,8 @@
                 if (!formatter.__no_warn__ &&
                     $.terminal.length(ret) !== $.terminal.length(string)) {
                     warn('Your formatter[' + index + '] change length of the string, ' +
-                         'you should use [regex, replacement] formatter or function ' +
-                         ' that return [replacement, position] instead');
+                        'you should use [regex, replacement] formatter or function ' +
+                        ' that return [replacement, position] instead');
                 }
             }
             function should_format(options) {
@@ -5976,7 +5976,7 @@
                     return true;
                 }
                 var props = ['echo', 'command', 'prompt'];
-                var have_any = props.some(function(name) {
+                var have_any = props.some(function (name) {
                     return options[name] === true;
                 });
                 if (!have_any) {
@@ -6017,7 +6017,7 @@
                 input = [string, 0];
             }
             try {
-                var result = formatters.reduce(function(input, formatter) {
+                var result = formatters.reduce(function (input, formatter) {
                     i++;
                     // __meta__ is for safe formatter that can handle formatters
                     // inside formatters. for other usage we use format_split so one
@@ -6029,7 +6029,7 @@
                         var length = 0;
                         var found_position = false;
                         var splitted = $.terminal.format_split(input[0]);
-                        var partials = splitted.map(function(string) {
+                        var partials = splitted.map(function (string) {
                             var position;
                             var this_len = text(string).length;
                             // first position that match is used for this partial
@@ -6099,10 +6099,10 @@
                                 return [string, -1];
                             }
                         });
-                        var position_partial = partials.filter(function(partial) {
+                        var position_partial = partials.filter(function (partial) {
                             return partial[1] !== -1;
                         })[0];
-                        var string = partials.map(function(partial) {
+                        var string = partials.map(function (partial) {
                             return partial[0];
                         }).join('');
                         var position;
@@ -6164,7 +6164,7 @@
             // -----------------------------------------------------------------
             function filter_attr_names(names) {
                 if (names.length && settings.allowedAttributes.length) {
-                    return names.filter(function(name) {
+                    return names.filter(function (name) {
                         if (name === 'data-text') {
                             return false;
                         }
@@ -6202,7 +6202,7 @@
                 if (attrs) {
                     var keys = filter_attr_names(Object.keys(attrs));
                     if (keys.length) {
-                        return ' ' + keys.map(function(name) {
+                        return ' ' + keys.map(function (name) {
                             var value = attrs[name].replace(/"/g, '&quot;');
                             return name + '="' + value + '"';
                         }).join(' ');
@@ -6231,24 +6231,24 @@
             }
             // -----------------------------------------------------------------
             function with_url_validation(fn) {
-                return function(url) {
+                return function (url) {
                     if (settings.anyLinks) {
                         return true;
                     }
                     var test = fn(url);
                     if (!test) {
                         warn('Invalid URL ' + url + ' only http(s) ftp and Path ' +
-                             'are allowed');
+                            'are allowed');
                     }
                     return test;
                 };
             }
             // -----------------------------------------------------------------
-            var valid_href = with_url_validation(function(url) {
+            var valid_href = with_url_validation(function (url) {
                 return url.match(/^((https?|file|ftp):\/\/|\.{0,2}\/)/) || is_path(url);
             });
             // -----------------------------------------------------------------
-            var valid_src = with_url_validation(function(url) {
+            var valid_src = with_url_validation(function (url) {
                 return url.match(/^(https?:|file:|blob:|data:)/) || is_path(url);
             });
             // -----------------------------------------------------------------
@@ -6387,13 +6387,13 @@
             if (typeof str === 'string') {
                 // support for formating foo[[u;;]bar]baz[[b;#fff;]quux]zzz
                 var splitted = $.terminal.format_split(str);
-                str = $.map(splitted, function(text) {
+                str = $.map(splitted, function (text) {
                     if (text === '') {
                         return text;
                     } else if ($.terminal.is_formatting(text)) {
                         // fix &nbsp; inside formatting because encode is called
                         // before format
-                        text = text.replace(/\[\[[^\]]+\]/, function(text) {
+                        text = text.replace(/\[\[[^\]]+\]/, function (text) {
                             return text.replace(/&nbsp;/g, ' ');
                         });
                         return text.replace(format_parts_re, format);
@@ -6436,7 +6436,7 @@
         // ---------------------------------------------------------------------
         // :: return number of characters without formatting
         // ---------------------------------------------------------------------
-        length: function(string, raw) {
+        length: function (string, raw) {
             if (!string) {
                 return 0;
             }
@@ -6459,17 +6459,17 @@
         // :: return string where array items are in columns padded spaces
         // :: after adding align tabs arr.join('\t\t') looks much better
         // ---------------------------------------------------------------------
-        columns: function(array, cols, space) {
-            array = array.map(function(value) {
+        columns: function (array, cols, space) {
+            array = array.map(function (value) {
                 if (typeof value !== 'string') {
                     return String(value);
                 }
                 return value;
             });
-            var no_formatting = array.map(function(value) {
+            var no_formatting = array.map(function (value) {
                 return $.terminal.strip(value);
             });
-            var lengths = no_formatting.map(function(string) {
+            var lengths = no_formatting.map(function (string) {
                 return strlen(string);
             });
             if (typeof space === 'undefined') {
@@ -6485,7 +6485,7 @@
             for (var i = 0, len = array.length; i < len; i += column_limit) {
                 var line = array.slice(i, i + column_limit);
                 var last = line.pop();
-                lines.push(line.reduce(function(acc, string) {
+                lines.push(line.reduce(function (acc, string) {
                     var stripped = $.terminal.strip(string);
                     var pad = new Array(length - stripped.length + 1).join(' ');
                     acc.push(string + pad);
@@ -6501,10 +6501,10 @@
             if (!$.terminal.have_formatting(str)) {
                 return str;
             }
-            return $.terminal.format_split(str).map(function(str) {
+            return $.terminal.format_split(str).map(function (str) {
                 if ($.terminal.is_formatting(str)) {
                     str = str.replace(format_parts_re, '$6');
-                    return str.replace(/\\([[\]])/g, function(whole, bracket) {
+                    return str.replace(/\\([[\]])/g, function (whole, bracket) {
                         return bracket;
                     });
                 }
@@ -6534,7 +6534,7 @@
         parse_argument: function parse_argument(arg, strict) {
             function parse_string(string) {
                 // split string to string literals and non-strings
-                return string.split(string_re).map(function(string) {
+                return string.split(string_re).map(function (string) {
                     // remove quotes if before are even number of slashes
                     // we don't remove slases becuase they are handled by JSON.parse
                     if (string.match(/^['"`]/)) {
@@ -6599,7 +6599,7 @@
         // :: and escapes spaces
         // ---------------------------------------------------------------------
         split_arguments: function split_arguments(string) {
-            return $.map(string.match(command_re) || [], function(arg) {
+            return $.map(string.match(command_re) || [], function (arg) {
                 return $.terminal.parse_argument(arg, false);
             });
         },
@@ -6614,7 +6614,7 @@
         // :: Same as parse_command but arguments are parsed using split_arguments
         // ---------------------------------------------------------------------
         split_command: function split_command(string) {
-            return process_command(string, function(arg) {
+            return process_command(string, function (arg) {
                 return $.terminal.parse_argument(arg, false);
             });
         },
@@ -6634,7 +6634,7 @@
             function token(value) {
                 this.value = value;
             }
-            var rest = arg.reduce(function(acc, arg) {
+            var rest = arg.reduce(function (acc, arg) {
                 var str = typeof arg === 'string' ? arg : '';
                 if (str.match(/^--?[^-]/) && acc instanceof token) {
                     result[acc.value] = true;
@@ -6651,7 +6651,7 @@
                     if (settings.boolean.indexOf(single.slice(-1)[0]) === -1) {
                         var last = single.pop();
                     }
-                    single.forEach(function(single) {
+                    single.forEach(function (single) {
                         result[single] = true;
                     });
                     if (last) {
@@ -6673,7 +6673,7 @@
         // :: helper function that return array of formatting
         // :: it handles html entites inside text #735
         // ---------------------------------------------------------------------
-        parse_formatting: function(string) {
+        parse_formatting: function (string) {
             var formatting = $.terminal.unescape_brackets(string).split(';');
             var text_part = 4;
             if (formatting.length >= 5) {
@@ -6696,7 +6696,7 @@
                 if (m) {
                     if (!settings.invokeMethods) {
                         warn('To invoke terminal or cmd methods you need to enable ' +
-                             'invokeMethods option');
+                            'invokeMethods option');
                         deferred.reject();
                     } else {
                         string = m[1];
@@ -6715,12 +6715,12 @@
                             deferred.resolve();
                         } catch (e) {
                             term.error('Invalid invocation in ' +
-                                       $.terminal.escape_brackets(string));
+                                $.terminal.escape_brackets(string));
                             deferred.reject();
                         }
                     }
                 } else {
-                    return term.exec(string, true).done(function() {
+                    return term.exec(string, true).done(function () {
                         change_hash = true;
                     });
                 }
@@ -6733,7 +6733,7 @@
         // ---------------------------------------------------------------------
         // :: ES6 iterator for a given string that handle emoji and formatting
         // ---------------------------------------------------------------------
-        iterator: function(string) {
+        iterator: function (string) {
             function formatting(string) {
                 if ($.terminal.is_formatting(string)) {
                     if (string.match(/\]\\\]/)) {
@@ -6746,9 +6746,9 @@
                 var len = $.terminal.length(string);
                 var i = 0;
                 var obj = {};
-                obj[Symbol.iterator] = function() {
+                obj[Symbol.iterator] = function () {
                     return {
-                        next: function() {
+                        next: function () {
                             if (i < len) {
                                 var text = $.terminal.substring(string, i, i + 1);
                                 i++;
@@ -6769,18 +6769,18 @@
         // ---------------------------------------------------------------------
         // :: object that can be used in string methods intead of regex
         // ---------------------------------------------------------------------
-        formatter: new (function() {
+        formatter: new (function () {
             try {
-                this[Symbol.split] = function(string) {
+                this[Symbol.split] = function (string) {
                     return $.terminal.format_split(string);
                 };
-                this[Symbol.match] = function(string) {
+                this[Symbol.match] = function (string) {
                     return string.match(format_re);
                 };
-                this[Symbol.replace] = function(string, replacer) {
+                this[Symbol.replace] = function (string, replacer) {
                     return string.replace(format_parts_re, replacer);
                 };
-                this[Symbol.search] = function(string) {
+                this[Symbol.search] = function (string) {
                     return string.search(format_re);
                 };
             } catch (e) {
@@ -6789,7 +6789,7 @@
         // ---------------------------------------------------------------------
         // :: helper function that add formatter before nested_formatting
         // ---------------------------------------------------------------------
-        new_formatter: function(formatter) {
+        new_formatter: function (formatter) {
             var formatters = $.terminal.defaults.formatters;
             for (var i = 0; i < formatters.length; ++i) {
                 if (formatters[i] === $.terminal.nested_formatting) {
@@ -6814,16 +6814,16 @@
         }
     };
     $.terminal.Exception.prototype = new Error();
-    $.terminal.Exception.prototype.toString = function() {
+    $.terminal.Exception.prototype.toString = function () {
         return this.message + '\n' + this.stack;
     };
     // -----------------------------------------------------------------------
     // Helper plugins and functions
     // -----------------------------------------------------------------------
-    $.fn.visible = function() {
+    $.fn.visible = function () {
         return this.css('visibility', 'visible');
     };
-    $.fn.hidden = function() {
+    $.fn.hidden = function () {
         return this.css('visibility', 'hidden');
     };
     // -----------------------------------------------------------------------
@@ -6842,7 +6842,7 @@
                 /* eslint-enable */
             } else {
                 // prevent catching in outer try..catch
-                setTimeout(function() {
+                setTimeout(function () {
                     throw new Error('WARN: ' + msg);
                 }, 0);
             }
@@ -6852,7 +6852,7 @@
     // JSON-RPC CALL
     // -----------------------------------------------------------------------
     var ids = {}; // list of url based ids of JSON-RPC
-    $.jrpc = function(url, method, params, success, error) {
+    $.jrpc = function (url, method, params, success, error) {
         var deferred = new $.Deferred();
         var options;
         if ($.isPlainObject(url)) {
@@ -6869,7 +6869,7 @@
         function validJSONRPC(response) {
             return $.isNumeric(response.id) &&
                 (typeof response.result !== 'undefined' ||
-                 typeof response.error !== 'undefined');
+                    typeof response.error !== 'undefined');
         }
         ids[options.url] = ids[options.url] || 0;
         var request = {
@@ -6890,7 +6890,7 @@
                 var content_type = jqXHR.getResponseHeader('Content-Type');
                 if (!content_type.match(/(application|text)\/json/)) {
                     warn('Response Content-Type is neither application/json' +
-                         ' nor text/json');
+                        ' nor text/json');
                 }
                 var json;
                 try {
@@ -6901,7 +6901,7 @@
                     } else {
                         throw new $.terminal.Exception('JSON', 'Invalid JSON', e.stack);
                     }
-                    deferred.reject({message: 'Invalid JSON', response: response});
+                    deferred.reject({ message: 'Invalid JSON', response: response });
                     return;
                 }
                 if (is_function(options.response)) {
@@ -6917,7 +6917,7 @@
                     if (options.error) {
                         options.error(jqXHR, 'Invalid JSON-RPC');
                     }
-                    deferred.reject({message: 'Invalid JSON-RPC', response: response});
+                    deferred.reject({ message: 'Invalid JSON-RPC', response: response });
                 }
             },
             error: options.error,
@@ -6931,7 +6931,7 @@
         return deferred.promise();
     };
     // -----------------------------------------------------------------------
-    $.rpc = function(url, method, params) {
+    $.rpc = function (url, method, params) {
         var deferred = new $.Deferred();
         function success(res) {
             if (res.error) {
@@ -6941,7 +6941,7 @@
             }
         }
         function error(jqXHR, status, message) {
-            deferred.reject({message: message});
+            deferred.reject({ message: message });
         }
         $.jrpc(url, method, params, success, error);
         return deferred.promise();
@@ -6949,8 +6949,8 @@
     // -----------------------------------------------------------------------
     function terminal_ready(term) {
         return !!(term.closest('body').length &&
-                  term.is(':visible') &&
-                  term.find('.cmd-prompt').length);
+            term.is(':visible') &&
+            term.find('.cmd-prompt').length);
     }
     // -----------------------------------------------------------------------
     // :: Create fake terminal to calcualte the dimention of one character
@@ -6972,14 +6972,14 @@
             $prompt.parent().remove();
         } else {
             var temp = $('<div class="terminal terminal-temp"><div class="terminal-' +
-                         'wrapper"><div class="terminal-output"><div><div class="te' +
-                         'rminal-line" style="float: left"><span>&nbsp;</span></div' +
-                         '></div></div></div>').appendTo('body');
+                'wrapper"><div class="terminal-output"><div><div class="te' +
+                'rminal-line" style="float: left"><span>&nbsp;</span></div' +
+                '></div></div></div>').appendTo('body');
             temp.addClass(term.attr('class')).attr('id', term.attr('id'));
             if (term) {
                 var style = term.attr('style');
                 if (style) {
-                    style = style.split(/\s*;\s*/).filter(function(s) {
+                    style = style.split(/\s*;\s*/).filter(function (s) {
                         return !s.match(/display\s*:\s*none/i);
                     }).join(';');
                     temp.attr('style', style);
@@ -7016,7 +7016,7 @@
     }
     // -----------------------------------------------------------------------
     function all(array, fn) {
-        var same = array.filter(function(item) {
+        var same = array.filter(function (item) {
             return item[fn]() === item;
         });
         return same.length === array.length;
@@ -7055,7 +7055,7 @@
     }
     // -----------------------------------------------------------------------
     if (!Array.isArray) {
-        Array.isArray = function(arg) {
+        Array.isArray = function (arg) {
             return Object.prototype.toString.call(arg) === '[object Array]';
         };
     }
@@ -7206,7 +7206,7 @@
                 'or rpc without system.describe',
             oneInterpreterFunction: "You can't use more than one function (rpc " +
                 'without system.describe or with option describe == false count' +
-                 's as one)',
+                's as one)',
             loginFunctionMissing: "You didn't specify a login function",
             noTokenError: 'Access denied (no token)',
             serverResponse: 'Server responded',
@@ -7239,26 +7239,26 @@
     var change_hash = false; // don't change hash on Init
     var fire_hash_change = true;
     var first_instance = true; // used by history state
-    $.fn.terminal = function(init_interpreter, options) {
+    $.fn.terminal = function (init_interpreter, options) {
         function StorageHelper(memory) {
             if (memory) {
                 this.storage = {};
             }
-            this.set = function(key, value) {
+            this.set = function (key, value) {
                 if (memory) {
                     this.storage[key] = value;
                 } else {
                     $.Storage.set(key, value);
                 }
             };
-            this.get = function(key) {
+            this.get = function (key) {
                 if (memory) {
                     return this.storage[key];
                 } else {
                     return $.Storage.get(key);
                 }
             };
-            this.remove = function(key) {
+            this.remove = function (key) {
                 if (memory) {
                     delete this.storage[key];
                 } else {
@@ -7323,7 +7323,7 @@
             if (is_node(value)) {
                 var settings = $.extend({}, options, {
                     raw: true,
-                    finalize: function(div) {
+                    finalize: function (div) {
                         div.find('.terminal-render-item').replaceWith(value);
                         if (options && is_function(options.finalize)) {
                             options.finalize(div, self);
@@ -7367,7 +7367,7 @@
             if (typeof object === 'string') {
                 self.echo(object);
             } else if (is_array(object)) {
-                self.echo($.map(object, function(object) {
+                self.echo($.map(object, function (object) {
                     return JSON.stringify(object);
                 }).join(' '));
             } else if (typeof object === 'object') {
@@ -7386,12 +7386,12 @@
             if (m) {
                 // TODO: do we need to call pause/resume or return promise?
                 self.pause(settings.softPause);
-                $.get(m[1], function(response) {
+                $.get(m[1], function (response) {
                     var file = m[1];
                     var code = response.split('\n');
                     var n = +m[2] - 1;
                     var start = n > 2 ? n - 2 : 0;
-                    var lines = code.slice(start, n + 3).map(function(line, i) {
+                    var lines = code.slice(start, n + 3).map(function (line, i) {
                         var prefix = '[' + (n + i - 1) + ']: ';
                         var limit = cols - prefix.length - 4;
                         if (line.length > limit) {
@@ -7436,20 +7436,20 @@
         // :: Create interpreter function from url string
         // ---------------------------------------------------------------------
         function make_basic_json_rpc(url, auth) {
-            var interpreter = function(method, params) {
+            var interpreter = function (method, params) {
                 self.pause(settings.softPause);
                 $.jrpc({
                     url: url,
                     method: method,
                     params: params,
-                    request: function(jxhr, request) {
+                    request: function (jxhr, request) {
                         try {
                             settings.request.call(self, jxhr, request, self);
                         } catch (e) {
                             display_exception(e, 'USER');
                         }
                     },
-                    response: function(jxhr, response) {
+                    response: function (jxhr, response) {
                         try {
                             settings.response.call(self, jxhr, response, self);
                         } catch (e) {
@@ -7470,7 +7470,7 @@
                 });
             };
             // this is the interpreter function
-            return function(command, terminal) {
+            return function (command, terminal) {
                 if (command === '') {
                     return;
                 }
@@ -7503,7 +7503,7 @@
         function make_object_interpreter(object, arity, login, fallback) {
             // function that maps commands to object methods
             // it keeps terminal context
-            return function(user_command, terminal) {
+            return function (user_command, terminal) {
                 if (user_command === '') {
                     return;
                 }
@@ -7526,12 +7526,12 @@
                     if (arity && val.length !== command.args.length) {
                         self.error(
                             '&#91;Arity&#93; ' +
-                                sprintf(
-                                    strings().wrongArity,
-                                    command.name,
-                                    val.length,
-                                    command.args.length
-                                )
+                            sprintf(
+                                strings().wrongArity,
+                                command.name,
+                                val.length,
+                                command.args.length
+                            )
                         );
                     } else {
                         return val.apply(self, command.args);
@@ -7567,8 +7567,8 @@
                 settings.onAjaxError.call(self, xhr, status, error);
             } else if (status !== 'abort') {
                 self.error('&#91;AJAX&#93; ' + status + ' - ' +
-                           strings().serverResponse + ':\n' +
-                           $.terminal.escape_brackets(xhr.responseText));
+                    strings().serverResponse + ':\n' +
+                    $.terminal.escape_brackets(xhr.responseText));
             }
         }
         // ---------------------------------------------------------------------
@@ -7604,15 +7604,15 @@
                 // we check if it's false before we call this function but
                 // it don't hurt to be explicit here
                 if (settings.describe !== false && settings.describe !== '') {
-                    settings.describe.split('.').forEach(function(field) {
+                    settings.describe.split('.').forEach(function (field) {
                         procs = procs[field];
                     });
                 }
                 if (procs && procs.length) {
                     var interpreter_object = {};
-                    $.each(procs, function(_, proc) {
+                    $.each(procs, function (_, proc) {
                         if ($.isPlainObject(proc) && typeof proc.name === 'string') {
-                            interpreter_object[proc.name] = function() {
+                            interpreter_object[proc.name] = function () {
                                 var append = auth && proc.name !== 'help';
                                 var args = Array.prototype.slice.call(arguments);
                                 var args_len = args.length + (append ? 1 : 0);
@@ -7620,12 +7620,12 @@
                                     proc.params.length !== args_len) {
                                     self.error(
                                         '&#91;Arity&#93; ' +
-                                            sprintf(
-                                                strings().wrongArity,
-                                                proc.name,
-                                                proc.params.length,
-                                                args_len
-                                            )
+                                        sprintf(
+                                            strings().wrongArity,
+                                            proc.name,
+                                            proc.params.length,
+                                            args_len
+                                        )
                                     );
                                 } else {
                                     self.pause(settings.softPause);
@@ -7635,7 +7635,7 @@
                                             args = [token].concat(args);
                                         } else {
                                             self.error('&#91;AUTH&#93; ' +
-                                                       strings().noTokenError);
+                                                strings().noTokenError);
                                         }
                                     }
                                     $.jrpc({
@@ -7652,15 +7652,15 @@
                         }
                     });
                     var login = typeof auth === 'string' ? auth : 'login';
-                    interpreter_object.help = interpreter_object.help || function(fn) {
+                    interpreter_object.help = interpreter_object.help || function (fn) {
                         if (typeof fn === 'undefined') {
-                            var names = procs.map(function(proc) {
+                            var names = procs.map(function (proc) {
                                 return proc.name;
                             }).join(', ') + ', help';
                             self.echo('Available commands: ' + names);
                         } else {
                             var found = false;
-                            $.each(procs, function(_, proc) {
+                            $.each(procs, function (_, proc) {
                                 if (proc.name === fn) {
                                     found = true;
                                     var msg = '';
@@ -7682,8 +7682,8 @@
                             if (!found) {
                                 if (fn === 'help') {
                                     self.echo('[[bu;;]help] [method]\ndisplay help ' +
-                                              'for the method or list of methods if not' +
-                                              ' specified');
+                                        'for the method or list of methods if not' +
+                                        ' specified');
                                 } else {
                                     var msg = 'Method `' + fn + "' not found ";
                                     self.error(msg);
@@ -7737,7 +7737,7 @@
                                 }
                                 recur(rest, success);
                             } else {
-                                make_json_rpc_object(first, login, function(new_obj) {
+                                make_json_rpc_object(first, login, function (new_obj) {
                                     if (new_obj) {
                                         $.extend(object, new_obj);
                                     } else if (++rpc_count === 1) {
@@ -7766,7 +7766,7 @@
                     } else {
                         success();
                     }
-                })(user_intrp, function() {
+                })(user_intrp, function () {
                     finalize({
                         interpreter: make_object_interpreter(
                             object,
@@ -7788,7 +7788,7 @@
                     finalize(object);
                 } else {
                     self.pause(settings.softPause);
-                    make_json_rpc_object(user_intrp, login, function(object) {
+                    make_json_rpc_object(user_intrp, login, function (object) {
                         if (object) {
                             result.interpreter = make_object_interpreter(
                                 object,
@@ -7833,20 +7833,20 @@
         // ---------------------------------------------------------------------
         function make_json_rpc_login(url, login) {
             var method = get_type(login) === 'boolean' ? 'login' : login;
-            return function(user, passwd, callback) {
+            return function (user, passwd, callback) {
                 self.pause(settings.softPause);
                 $.jrpc({
                     url: url,
                     method: method,
                     params: [user, passwd],
-                    request: function(jxhr, request) {
+                    request: function (jxhr, request) {
                         try {
                             settings.request.call(self, jxhr, request, self);
                         } catch (e) {
                             display_exception(e, 'USER');
                         }
                     },
-                    response: function(jxhr, response) {
+                    response: function (jxhr, response) {
                         try {
                             settings.response.call(self, jxhr, response, self);
                         } catch (e) {
@@ -7876,7 +7876,7 @@
             } else {
                 self.exception(e, label);
                 if (!silent) {
-                    setTimeout(function() {
+                    setTimeout(function () {
                         throw e;
                     }, 0);
                 }
@@ -7916,7 +7916,7 @@
             if (!$.terminal.have_formatting(string)) {
                 return linkify(string);
             }
-            return $.terminal.format_split(string).map(function(str) {
+            return $.terminal.format_split(string).map(function (str) {
                 if ($.terminal.is_formatting(str)) {
                     return str.replace(format_parts_re, format);
                 } else {
@@ -7927,11 +7927,11 @@
         // ---------------------------------------------------------------------
         function should_wrap(string, options) {
             return (strlen(text(string)) > options.cols ||
-                    string.match(/\n/)) &&
+                string.match(/\n/)) &&
                 ((settings.wrap === true &&
-                  options.wrap === undefined) ||
-                 settings.wrap === false &&
-                 options.wrap === true);
+                    options.wrap === undefined) ||
+                    settings.wrap === false &&
+                    options.wrap === true);
         }
         // ---------------------------------------------------------------------
         var line_cache;
@@ -7941,7 +7941,7 @@
         // ---------------------------------------------------------------------
         function process_extended_commands(string, line, line_settings) {
             if (line_settings.exec || line.options.clear_exec) {
-                return $.terminal.each_extended_command(string, function(command) {
+                return $.terminal.each_extended_command(string, function (command) {
                     // redraw should not execute commands and it have
                     // and lines variable have all extended commands
                     if (line_settings.exec) {
@@ -7955,7 +7955,7 @@
                             prev_exec_cmd = trim;
                             $.terminal.extended_command(self, command, {
                                 invokeMethods: line_settings.invokeMethods
-                            }).then(function() {
+                            }).then(function () {
                                 prev_exec_cmd = '';
                             });
                         }
@@ -7981,7 +7981,7 @@
                 var string = stringify_value(line.value);
                 if (string && is_function(string.then)) {
                     // handle function that return a promise #629
-                    return string.then(function(string) {
+                    return string.then(function (string) {
                         process_line($.extend(line, {
                             value: string,
                             options: line_settings
@@ -8007,7 +8007,7 @@
                             try {
                                 string = $.terminal.apply_formatters(
                                     string,
-                                    $.extend(settings, {echo: true})
+                                    $.extend(settings, { echo: true })
                                 );
                             } catch (e) {
                                 display_exception(e, 'FORMATTING');
@@ -8040,7 +8040,7 @@
                 }
                 var arg = array || string;
                 if (line_cache && key && use_cache) {
-                    line_cache.set(key, {input: arg, raw: raw_string});
+                    line_cache.set(key, { input: arg, raw: raw_string });
                 }
                 buffer.append(arg, line.index, line_settings, raw_string);
             } catch (e) {
@@ -8072,11 +8072,11 @@
             }
             try {
                 buffer.clear();
-                unpromise(lines.render(self.rows(), function(lines_to_show) {
-                    return lines_to_show.map(function(line) {
+                unpromise(lines.render(self.rows(), function (lines_to_show) {
+                    return lines_to_show.map(function (line) {
                         return process_line(line);
                     });
-                }), function() {
+                }), function () {
                     self.flush(options);
                     if (!options.update) {
                         command_line.before(detached_output); // reinsert output
@@ -8110,7 +8110,7 @@
                     // element so we first get the parent
                     var parents = for_remove.parent();
                     for_remove.remove();
-                    parents.each(function() {
+                    parents.each(function () {
                         var $self = $(this);
                         if ($self.is(':empty')) {
                             unmount($self);
@@ -8129,13 +8129,13 @@
         function show_greetings() {
             if (settings.greetings === undefined) {
                 // signature have ascii art so it's not suite for screen readers
-                self.echo({finalize: a11y_hide, formatters: false});
+                self.echo({ finalize: a11y_hide, formatters: false });
             } else if (settings.greetings) {
                 var type = typeof settings.greetings;
                 if (type === 'string') {
                     self.echo(settings.greetings);
                 } else if (type === 'function') {
-                    self.echo(function() {
+                    self.echo(function () {
                         try {
                             return settings.greetings.call(self, self.echo);
                         } catch (e) {
@@ -8178,7 +8178,7 @@
                     fire_event('onEchoCommand', [div, command]);
                 }
             };
-            command = $.terminal.apply_formatters(command, {command: true});
+            command = $.terminal.apply_formatters(command, { command: true });
             self.echo(prompt + command, options);
         }
         // ---------------------------------------------------------------------
@@ -8202,7 +8202,7 @@
                 change_hash = false;
                 var command = spec[2];
                 if (command) {
-                    terminal.exec(command).done(function() {
+                    terminal.exec(command).done(function () {
                         change_hash = true;
                         save_state[command_idx] = terminal.export_view();
                     });
@@ -8214,7 +8214,7 @@
         }
         // ---------------------------------------------------------------------
         function make_label_error(label) {
-            return function(e) {
+            return function (e) {
                 self.error('[' + label + '] ' + (e.message || e)).resume();
             };
         }
@@ -8225,7 +8225,7 @@
             if (change_hash) {
                 fire_hash_change = false;
                 location.hash = '#' + JSON.stringify(hash_commands);
-                setTimeout(function() {
+                setTimeout(function () {
                     fire_hash_change = true;
                 }, 100);
             }
@@ -8301,7 +8301,7 @@
                     }
                 } else {
                     if (paused) {
-                        resume_callbacks.push(function() {
+                        resume_callbacks.push(function () {
                             // exec with resume/pause in user code
                             after_exec();
                         });
@@ -8333,8 +8333,8 @@
                     // exec execute this function wihout the help of cmd plugin
                     // that add command to history on enter
                     if (exec && (is_function(settings.historyFilter) &&
-                                 settings.historyFilter(command) ||
-                                 command.match(settings.historyFilter))) {
+                        settings.historyFilter(command) ||
+                        command.match(settings.historyFilter))) {
                         command_line.history().append(command);
                     }
                 }
@@ -8358,7 +8358,7 @@
                     }
                     after_exec();
                 } else if (settings.exit && command.match(/^\s*exit\s*$/) &&
-                           !in_login) {
+                    !in_login) {
                     before_async_exec();
                     var level = self.level();
                     if (level === 1 && self.get_token() || level > 1) {
@@ -8369,7 +8369,7 @@
                     }
                     after_exec();
                 } else if (settings.clear && command.match(/^\s*clear\s*$/) &&
-                           !in_login) {
+                    !in_login) {
                     before_async_exec();
                     self.clear();
                     after_exec();
@@ -8452,8 +8452,8 @@
                 command_line.keymap(null).keymap($.extend(
                     {},
                     terminal_init_keymap,
-                    $.omap(interpreter.keymap, function(name, fun) {
-                        return function() {
+                    $.omap(interpreter.keymap, function (name, fun) {
+                        return function () {
                             var args = [].slice.call(arguments);
                             try {
                                 return fun.apply(self, args);
@@ -8491,7 +8491,7 @@
                 }
             }
         }
-        var scroll_to_view = (function() {
+        var scroll_to_view = (function () {
             function scroll_to_view(visible) {
                 if (!visible) {
                     // try catch for Node.js unit tests
@@ -8571,7 +8571,7 @@
             // execute after onInit resume)
             var was_paused = false;
             if (is_function(settings.onInit)) {
-                onPause = function() { // local in terminal
+                onPause = function () { // local in terminal
                     was_paused = true;
                 };
                 var ret;
@@ -8583,7 +8583,7 @@
                     if (!is_promise(ret)) {
                         next();
                     } else {
-                        ret.then(next).catch(function(e) {
+                        ret.then(next).catch(function (e) {
                             display_exception(e, 'OnInit');
                             next();
                         });
@@ -8619,7 +8619,7 @@
             }
         }
         var keymap = {
-            'CTRL+D': function(e, original) {
+            'CTRL+D': function (e, original) {
                 if (!in_login) {
                     if (command_line.get() === '') {
                         if (interpreters.size() > 1 ||
@@ -8634,8 +8634,8 @@
                 }
                 return false;
             },
-            'CTRL+C': function() {
-                with_selection(function(html) {
+            'CTRL+C': function () {
+                with_selection(function (html) {
                     if (html === '') {
                         var command = self.get_command();
                         var position = self.get_position();
@@ -8650,11 +8650,11 @@
                 });
                 return false;
             },
-            'CTRL+L': function() {
+            'CTRL+L': function () {
                 self.clear();
                 return false;
             },
-            'TAB': function(e, orignal) {
+            'TAB': function (e, orignal) {
                 // TODO: move this to cmd plugin
                 //       add completion = array | function
                 //       !!! Problem complete more then one key need terminal
@@ -8718,23 +8718,23 @@
                 }
                 return false;
             },
-            'CTRL+V': function(e, original) {
+            'CTRL+V': function (e, original) {
                 original(e);
-                self.oneTime(200, function() {
+                self.oneTime(200, function () {
                     self.scroll_to_bottom();
                 });
                 return true;
             },
-            'CTRL+TAB': function() {
+            'CTRL+TAB': function () {
                 if (terminals.length() > 1) {
                     self.focus(false);
                     return false;
                 }
             },
-            'PAGEDOWN': function() {
+            'PAGEDOWN': function () {
                 self.scroll(self.height());
             },
-            'PAGEUP': function() {
+            'PAGEUP': function () {
                 self.scroll(-self.height());
             }
         };
@@ -8827,7 +8827,7 @@
                         self.set_prompt('');
                     }
                     var bottom = self.is_bottom();
-                    var interval = setInterval(function() {
+                    var interval = setInterval(function () {
                         var chr = $.terminal.substring(formattted, char_i, char_i + 1);
                         new_prompt += chr;
                         self.set_prompt(new_prompt);
@@ -8837,7 +8837,7 @@
                         char_i++;
                         if (char_i === len) {
                             clearInterval(interval);
-                            setTimeout(function() {
+                            setTimeout(function () {
                                 // swap command with prompt
                                 finish_typing_fn(message, prompt, options);
                                 animating = false;
@@ -8848,38 +8848,38 @@
             };
         }
         // ---------------------------------------------------------------------
-        var typed_prompt = typed(function(message, _, options) {
+        var typed_prompt = typed(function (message, _, options) {
             self.set_prompt(message);
             options.finalize();
         });
         // ---------------------------------------------------------------------
-        var typed_insert = (function() {
-            var helper = typed(function(message, prompt, options) {
+        var typed_insert = (function () {
+            var helper = typed(function (message, prompt, options) {
                 self.set_prompt(prompt);
                 self.insert(message);
                 options.finalize();
             });
-            return function(prompt, command, options) {
+            return function (prompt, command, options) {
                 return helper(command, $.extend({}, options, {
                     prompt: prompt + self.get_command()
                 }));
             };
         })();
         // ---------------------------------------------------------------------
-        var typed_message = typed(function(message, prompt, options) {
+        var typed_message = typed(function (message, prompt, options) {
             self.set_prompt(prompt);
-            self.echo(message, $.extend({}, options, {typing: false}));
+            self.echo(message, $.extend({}, options, { typing: false }));
         });
         // ---------------------------------------------------------------------
-        var typed_enter = (function() {
-            var helper = typed(function(message, prompt, options) {
+        var typed_enter = (function () {
+            var helper = typed(function (message, prompt, options) {
                 self.set_prompt(prompt);
-                with_prompt(prompt, function(prompt) {
-                    self.echo(prompt + message, $.extend({}, options, {typing: false}));
+                with_prompt(prompt, function (prompt) {
+                    self.echo(prompt + message, $.extend({}, options, { typing: false }));
                 }, self);
             });
-            return function(prompt, message, options) {
-                return helper(message, $.extend({}, options, {prompt: prompt}));
+            return function (prompt, message, options) {
+                return helper(message, $.extend({}, options, { prompt: prompt }));
             };
         })();
         // ---------------------------------------------------------------------
@@ -8897,10 +8897,10 @@
                         }
                         if (typeof locals.delay !== 'number' || isNaN(locals.delay)) {
                             return d.reject(kind + ': Invalid argument, delay need to' +
-                                            ' be a number');
+                                ' be a number');
                         }
                         var p = self.typing(kind, locals.delay, string, locals);
-                        p.then(function() {
+                        p.then(function () {
                             d.resolve();
                         });
                     } else {
@@ -8918,7 +8918,7 @@
         }
         // ---------------------------------------------------------------------
         function ready(queue) {
-            return function(fun) {
+            return function (fun) {
                 queue.add(fun);
             };
         }
@@ -8933,11 +8933,11 @@
         // ---------------------------------------------------------------------
         var self = this;
         if (this.length > 1) {
-            return this.each(function() {
+            return this.each(function () {
                 $.fn.terminal.call(
                     $(this),
                     init_interpreter,
-                    $.extend({name: self.selector}, options)
+                    $.extend({ name: self.selector }, options)
                 );
             });
         }
@@ -8961,20 +8961,20 @@
         // TERMINAL METHODS
         // -----------------------------------------------------------------
         var public_api = $.omap({
-            id: function() {
+            id: function () {
                 return terminal_id;
             },
             // -------------------------------------------------------------
             // :: Clear the output
             // -------------------------------------------------------------
-            clear: function() {
+            clear: function () {
                 if (fire_event('onClear') !== false) {
                     buffer.clear();
-                    lines.clear(function(i) {
+                    lines.clear(function (i) {
                         return get_node(i);
                     });
                     output[0].innerHTML = '';
-                    self.prop({scrollTop: 0});
+                    self.prop({ scrollTop: 0 });
                 }
                 return self;
             },
@@ -8982,7 +8982,7 @@
             // :: Return an object that can be used with import_view to
             // :: restore the state
             // -------------------------------------------------------------
-            export_view: function() {
+            export_view: function () {
                 var user_export = fire_event('onExport');
                 user_export = user_export || {};
                 return $.extend({}, {
@@ -8999,7 +8999,7 @@
             // -------------------------------------------------------------
             // :: Restore the state of the previous exported view
             // -------------------------------------------------------------
-            import_view: function(view) {
+            import_view: function (view) {
                 if (in_login) {
                     throw new Error(sprintf(strings().notWhileLogin, 'import_view'));
                 }
@@ -9012,7 +9012,7 @@
                     if (view.focus) {
                         self.focus();
                     }
-                    lines.import(clone(view.lines).filter(function(line) {
+                    lines.import(clone(view.lines).filter(function (line) {
                         return line[0];
                     }));
                     if (view.interpreters instanceof Stack) {
@@ -9028,7 +9028,7 @@
             // -------------------------------------------------------------
             // :: Store current terminal state
             // -------------------------------------------------------------
-            save_state: function(command, ignore_hash, index) {
+            save_state: function (command, ignore_hash, index) {
                 // save_state.push({view:self.export_view(), join:[]});
                 if (typeof index !== 'undefined') {
                     save_state[index] = self.export_view();
@@ -9055,18 +9055,18 @@
             // :: true it will not echo executed command
             // :: if second argument is object is used as options
             // -------------------------------------------------------------
-            exec: function(command, silent, options) {
+            exec: function (command, silent, options) {
                 function invoke(silent) {
                     // commands may return promise from user code
                     // it will resolve exec promise when user promise
                     // is resolved
                     var ret = commands(command, silent, true);
-                    unpromise(ret, function() {
+                    unpromise(ret, function () {
                         // reset prev command for push called after exec
                         // so push didn't get name/prompt from exec command
                         prev_command = null;
                         d.resolve();
-                    }, function() {
+                    }, function () {
                         prev_command = null;
                         d.reject();
                     });
@@ -9108,11 +9108,11 @@
                         var ret = self.typing('enter', delay, command, {
                             delay: delay
                         });
-                        ret.then(function() {
+                        ret.then(function () {
                             paused = false;
                             invoke(true);
                         });
-                        d.then(function() {
+                        d.then(function () {
                             paused = false;
                         });
                     } else {
@@ -9127,7 +9127,7 @@
             // :: bypass login function that wait untill you type user/pass
             // :: it hide implementation detail
             // -------------------------------------------------------------
-            autologin: function(user, token, silent) {
+            autologin: function (user, token, silent) {
                 self.trigger('terminal.autologin', [user, token, silent]);
                 return self;
             },
@@ -9137,7 +9137,7 @@
             // :: the callback that expects a token. The login is successful
             // :: if the user calls it with value that is truthy
             // -------------------------------------------------------------
-            login: function(auth, infinite, success, error) {
+            login: function (auth, infinite, success, error) {
                 logins.push([].slice.call(arguments));
                 if (in_login) {
                     throw new Error(sprintf(strings().notWhileLogin, 'login'));
@@ -9208,29 +9208,29 @@
                     }
                     self.off('terminal.autologin');
                 }
-                self.on('terminal.autologin', function(event, user, token, silent) {
+                self.on('terminal.autologin', function (event, user, token, silent) {
                     if (fire_event('onBeforeLogin', [user, token]) === false) {
                         return;
                     }
                     login_callback(user, token, silent);
                 });
-                self.push(function(user) {
-                    self.set_mask(settings.maskChar).push(function(pass) {
+                self.push(function (user) {
+                    self.set_mask(settings.maskChar).push(function (pass) {
                         try {
                             if (fire_event('onBeforeLogin', [user, pass]) === false) {
                                 popUserPass();
                                 return;
                             }
                             self.pause();
-                            var ret = auth.call(self, user, pass, function(
+                            var ret = auth.call(self, user, pass, function (
                                 token,
                                 silent) {
                                 login_callback(user, token, silent);
                             });
                             if (ret && is_function(ret.then || ret.done)) {
-                                (ret.then || ret.done).call(ret, function(token) {
+                                (ret.then || ret.done).call(ret, function (token) {
                                     login_callback(user, token);
-                                }).catch(function(err) {
+                                }).catch(function (err) {
                                     self.pop(undefined, true).pop(undefined, true);
                                     self.error(err.message);
                                     if (is_function(error)) {
@@ -9258,13 +9258,13 @@
             // -------------------------------------------------------------
             // :: User defined settings and defaults as well
             // -------------------------------------------------------------
-            settings: function() {
+            settings: function () {
                 return settings;
             },
             // -------------------------------------------------------------
             // :: Get string before cursor
             // -------------------------------------------------------------
-            before_cursor: function(word) {
+            before_cursor: function (word) {
                 var pos = command_line.position();
                 var command = command_line.get().slice(0, pos);
                 var cmd_strings = command.split(/\s/);
@@ -9274,7 +9274,7 @@
                         string = cmd_strings[0];
                     } else {
                         var m = command.match(/(\\?")/g);
-                        var double_quotes = m ? m.filter(function(chr) {
+                        var double_quotes = m ? m.filter(function (chr) {
                             return !chr.match(/^\\/);
                         }).length : 0;
                         m = command.match(/'/g);
@@ -9304,7 +9304,7 @@
             // -------------------------------------------------------------
             // :: complete word or command based on array of words
             // -------------------------------------------------------------
-            complete: function(commands, options) {
+            complete: function (commands, options) {
                 options = $.extend({
                     word: true,
                     echo: false,
@@ -9339,7 +9339,7 @@
                 }
                 var safe = $.terminal.escape_regex(string);
                 if (options.escape) {
-                    safe = safe.replace(/(\\+)(["'() ])/g, function(_, slash, chr) {
+                    safe = safe.replace(/(\\+)(["'() ])/g, function (_, slash, chr) {
                         if (chr.match(/[()]/)) {
                             return slash + '\\?\\' + chr;
                         } else {
@@ -9361,8 +9361,8 @@
                     for (var i = commands.length; i--;) {
                         if (commands[i].match(/\n/) && options.word) {
                             warn('If you use commands with newlines you ' +
-                                 'should use word option for complete or' +
-                                 ' wordAutocomplete terminal option');
+                                'should use word option for complete or' +
+                                ' wordAutocomplete terminal option');
                         }
                         if (regex.test(commands[i])) {
                             var match = escape(commands[i]);
@@ -9442,17 +9442,17 @@
             // -------------------------------------------------------------
             // :: Return commands function from top interpreter
             // -------------------------------------------------------------
-            commands: function() {
+            commands: function () {
                 return interpreters.top().interpreter;
             },
             // -------------------------------------------------------------
             // :: Low Level method that overwrites interpreter
             // -------------------------------------------------------------
-            set_interpreter: function(user_intrp, login) {
+            set_interpreter: function (user_intrp, login) {
                 var defer = $.Deferred();
                 function overwrite_interpreter() {
                     self.pause(settings.softPause);
-                    make_interpreter(user_intrp, login, function(result) {
+                    make_interpreter(user_intrp, login, function (result) {
                         self.resume();
                         var top = interpreters.top();
                         $.extend(top, result);
@@ -9476,20 +9476,20 @@
             // -------------------------------------------------------------
             // :: Show user greetings or terminal signature
             // -------------------------------------------------------------
-            greetings: function() {
+            greetings: function () {
                 show_greetings();
                 return self;
             },
             // -------------------------------------------------------------
             // :: Return true if terminal is paused false otherwise
             // -------------------------------------------------------------
-            paused: function() {
+            paused: function () {
                 return paused;
             },
             // -------------------------------------------------------------
             // :: Pause the terminal, it should be used for ajax calls
             // -------------------------------------------------------------
-            pause: function(visible) {
+            pause: function (visible) {
                 cmd_ready(function ready() {
                     onPause();
                     paused = true;
@@ -9504,7 +9504,7 @@
             // -------------------------------------------------------------
             // :: Resume the previously paused terminal
             // -------------------------------------------------------------
-            resume: function(silent) {
+            resume: function (silent) {
                 cmd_ready(function ready() {
                     paused = false;
                     if (enabled && terminals.front() === self) {
@@ -9530,7 +9530,7 @@
             // :: Return the number of characters that fit into the width of
             // :: the terminal
             // -------------------------------------------------------------
-            cols: function() {
+            cols: function () {
                 if (settings.numChars) {
                     return settings.numChars;
                 }
@@ -9543,7 +9543,7 @@
             // :: Return the number of lines that fit into the height of the
             // :: terminal
             // -------------------------------------------------------------
-            rows: function() {
+            rows: function () {
                 if (settings.numRows) {
                     return settings.numRows;
                 }
@@ -9555,13 +9555,13 @@
             // -------------------------------------------------------------
             // :: Return the History object
             // -------------------------------------------------------------
-            history: function() {
+            history: function () {
                 return command_line.history();
             },
             // -------------------------------------------------------------
             // :: Return size of the terminal instance
             // -------------------------------------------------------------
-            geometry: function() {
+            geometry: function () {
                 var style = window.getComputedStyle(self[0]);
                 function padding(name) {
                     return parseInt(style.getPropertyValue('padding-' + name), 10) || 0;
@@ -9589,7 +9589,7 @@
             // -------------------------------------------------------------
             // :: toggle recording of history state
             // -------------------------------------------------------------
-            history_state: function(toggle) {
+            history_state: function (toggle) {
                 function run() {
                     settings.historyState = true;
                     if (!save_state.length) {
@@ -9614,7 +9614,7 @@
             // -------------------------------------------------------------
             // :: clear the history state
             // -------------------------------------------------------------
-            clear_history_state: function() {
+            clear_history_state: function () {
                 hash_commands = [];
                 save_state = [];
                 return self;
@@ -9622,7 +9622,7 @@
             // -------------------------------------------------------------
             // :: Switch to the next terminal
             // -------------------------------------------------------------
-            next: function() {
+            next: function () {
                 if (terminals.length() === 1) {
                     return self;
                 } else {
@@ -9630,7 +9630,7 @@
                     var next = terminals.rotate().enable();
                     // 50 provides buffer in viewport
                     var x = next.offset().top - 50;
-                    $('html,body').animate({scrollTop: x}, 500);
+                    $('html,body').animate({ scrollTop: x }, 500);
                     try {
                         trigger_terminal_change(next);
                     } catch (e) {
@@ -9645,7 +9645,7 @@
             // :: switch to next one, if the second argument is set to true
             // :: the events will be not fired. Used on init
             // -------------------------------------------------------------
-            focus: function(toggle, silent) {
+            focus: function (toggle, silent) {
                 cmd_ready(function ready() {
                     if (terminals.length() === 1) {
                         if (toggle === false) {
@@ -9661,7 +9661,7 @@
                             // there should be only from terminal enabled but tests
                             // sometime fail because there where more them one
                             // where cursor have blink class
-                            terminals.forEach(function(terminal) {
+                            terminals.forEach(function (terminal) {
                                 if (terminal !== self && terminal.enabled()) {
                                     terminal.disable(silent);
                                 }
@@ -9683,7 +9683,7 @@
             // -------------------------------------------------------------
             // :: Disable/Enable terminal that can be enabled by click
             // -------------------------------------------------------------
-            freeze: function(freeze) {
+            freeze: function (freeze) {
                 when_ready(function ready() {
                     if (freeze) {
                         self.disable();
@@ -9698,13 +9698,13 @@
             // -------------------------------------------------------------
             // :: check if terminal is frozen
             // -------------------------------------------------------------
-            frozen: function() {
+            frozen: function () {
                 return frozen;
             },
             // -------------------------------------------------------------
             // :: Enable the terminal
             // -------------------------------------------------------------
-            enable: function(silent) {
+            enable: function (silent) {
                 if (!enabled && !frozen) {
                     if (num_chars === undefined) {
                         // enabling first time
@@ -9729,17 +9729,17 @@
             // :: function clear formatting cache if you don't longer need it
             // :: cache is used if option useCache is set to true
             // -------------------------------------------------------------
-            clear_cache: 'Map' in root ? function() {
+            clear_cache: 'Map' in root ? function () {
                 buffer.clear_cache();
                 line_cache.clear();
                 return self;
-            } : function() {
+            } : function () {
                 return self;
             },
             // -------------------------------------------------------------
             // :: Disable the terminal
             // -------------------------------------------------------------
-            disable: function(silent) {
+            disable: function (silent) {
                 cmd_ready(function ready() {
                     var ret;
                     if (!silent && enabled) {
@@ -9755,7 +9755,7 @@
             // -------------------------------------------------------------
             // :: return true if the terminal is enabled
             // -------------------------------------------------------------
-            enabled: function() {
+            enabled: function () {
                 return enabled;
             },
             // -------------------------------------------------------------
@@ -9764,20 +9764,20 @@
             // -------------------------------------------------------------
             // :: Return the version number
             // -------------------------------------------------------------
-            version: function() {
+            version: function () {
                 return $.terminal.version;
             },
             // -------------------------------------------------------------
             // :: Return actual command line object (jquery object with cmd
             // :: methods)
             // -------------------------------------------------------------
-            cmd: function() {
+            cmd: function () {
                 return command_line;
             },
             // -------------------------------------------------------------
             // :: Return the current command entered by terminal
             // -------------------------------------------------------------
-            get_command: function() {
+            get_command: function () {
                 return command_line.get();
             },
             // -------------------------------------------------------------
@@ -9787,7 +9787,7 @@
             // -------------------------------------------------------------
             // :: Change the command line to the new one
             // -------------------------------------------------------------
-            set_command: function(command, silent) {
+            set_command: function (command, silent) {
                 when_ready(function ready() {
                     // TODO: refactor to use options - breaking change
                     if (typeof command !== 'string') {
@@ -9800,7 +9800,7 @@
             // -------------------------------------------------------------
             // :: Change position of the command line
             // -------------------------------------------------------------
-            set_position: function(position, relative) {
+            set_position: function (position, relative) {
                 when_ready(function ready() {
                     command_line.position(position, relative);
                 });
@@ -9809,13 +9809,13 @@
             // -------------------------------------------------------------
             // :: Return position of the command line
             // -------------------------------------------------------------
-            get_position: function() {
+            get_position: function () {
                 return command_line.position();
             },
             // -------------------------------------------------------------
             // :: Insert text into the command line after the cursor
             // -------------------------------------------------------------
-            insert: function(string, options) {
+            insert: function (string, options) {
                 if (typeof string === 'string') {
                     var locals;
                     var defaults = {
@@ -9840,7 +9840,7 @@
                         if (locals.typing) {
                             var delay = locals.delay;
                             var p = self.typing('insert', delay, string, settings);
-                            p.then(function() {
+                            p.then(function () {
                                 done();
                                 d.resolve();
                             });
@@ -9860,21 +9860,21 @@
             // -------------------------------------------------------------
             // :: Set the prompt of the command line
             // -------------------------------------------------------------
-            set_prompt: with_typing('prompt', function(prompt) {
+            set_prompt: with_typing('prompt', function (prompt) {
                 if (is_function(prompt)) {
-                    command_line.prompt(function(callback) {
+                    command_line.prompt(function (callback) {
                         return prompt.call(self, callback, self);
                     });
                 } else {
                     command_line.prompt(prompt);
                 }
-            }, function(prompt) {
+            }, function (prompt) {
                 interpreters.top().prompt = prompt;
             }),
             // -------------------------------------------------------------
             // :: Return the prompt used by the terminal
             // -------------------------------------------------------------
-            get_prompt: function() {
+            get_prompt: function () {
                 return interpreters.top().prompt;
                 // command_line.prompt(); - can be a wrapper
                 //return command_line.prompt();
@@ -9884,7 +9884,7 @@
             // :: the mask can also be character (in fact it will work with
             // :: strings longer then one)
             // -------------------------------------------------------------
-            set_mask: function(mask) {
+            set_mask: function (mask) {
                 when_ready(function ready() {
                     command_line.mask(mask === true ? settings.maskChar : mask);
                 });
@@ -9894,7 +9894,7 @@
             // :: Return the ouput of the terminal as text
             // :: the output may contain user terminal formatting
             // -------------------------------------------------------------
-            get_output: function(raw) {
+            get_output: function (raw) {
                 if (raw) {
                     return lines.data();
                 } else {
@@ -9904,11 +9904,11 @@
             // -------------------------------------------------------------
             // :: Recalculate and redraw everything
             // -------------------------------------------------------------
-            resize: function(width, height) {
+            resize: function (width, height) {
                 if (!self.is(':visible')) {
                     // delay resize if terminal not visible
                     self.stopTime('resize');
-                    self.oneTime(500, 'resize', function() {
+                    self.oneTime(500, 'resize', function () {
                         self.resize(width, height);
                     });
                 } else {
@@ -9948,7 +9948,7 @@
             // -------------------------------------------------------------
             // :: redraw the terminal and invalidate cache
             // -------------------------------------------------------------
-            refresh: function() {
+            refresh: function () {
                 if (char_size.width !== 0) {
                     self[0].style.setProperty('--char-width', char_size.width);
                 }
@@ -9965,7 +9965,7 @@
             // -------------------------------------------------------------
             // :: Flush the output to the terminal
             // -------------------------------------------------------------
-            flush: function(options) {
+            flush: function (options) {
                 options = $.extend({}, {
                     update: false,
                     scroll: true
@@ -9989,7 +9989,7 @@
                         }
                         // TODO: refactor buffer.flush(), there is way
                         //       to many levels of abstractions in one place
-                        buffer.flush(function(data) {
+                        buffer.flush(function (data) {
                             if (!data) {
                                 if (!partial.length) {
                                     wrapper = $('<div/>');
@@ -10001,7 +10001,7 @@
                                 }
                             } else if (is_function(data.finalize)) {
                                 if (scroll) {
-                                    wrapper.find('img').on('load', function() {
+                                    wrapper.find('img').on('load', function () {
                                         self.scroll_to_bottom();
                                     });
                                 }
@@ -10061,7 +10061,7 @@
                             cmd_outer.css('top', 0);
                             command_line.__set_prompt_margin(0);
                             last_row = self.find('.terminal-output div:last-child' +
-                                                 ' div:last-child');
+                                ' div:last-child');
                             // check if the div is parital fix #695
                             if (last_row.css('display') === 'inline-block') {
                                 last_row.css({
@@ -10096,7 +10096,7 @@
                         var cmd_cursor = self.find('.cmd-cursor');
                         var offset = self.find('.cmd').offset();
                         var self_offset = self.offset();
-                        self.stopTime('flush').oneTime(1, 'flush', function() {
+                        self.stopTime('flush').oneTime(1, 'flush', function () {
                             css(self[0], {
                                 '--terminal-height': self.height(),
                                 '--terminal-x': offset.left - self_offset.left,
@@ -10107,7 +10107,7 @@
                                 // Firefox won't reflow the cursor automatically, so
                                 // hide it briefly then reshow it
                                 cmd_cursor.hide();
-                                self.oneTime(1, 'flush', function() {
+                                self.oneTime(1, 'flush', function () {
                                     cmd_cursor.show();
                                 });
                             }
@@ -10139,7 +10139,7 @@
             // -------------------------------------------------------------
             // :: Update the output line - line number can be negative
             // -------------------------------------------------------------
-            update: function(line, value, options) {
+            update: function (line, value, options) {
                 when_ready(function ready() {
                     if (line < 0) {
                         line = lines.length() + line; // yes +
@@ -10157,7 +10157,7 @@
                         if (value === false) {
                             return self;
                         }
-                        unpromise(value, function(value) {
+                        unpromise(value, function (value) {
                             var ret = prepare_render(value, options);
                             if (ret) {
                                 value = ret[0];
@@ -10171,7 +10171,7 @@
                             });
                             // process_line can return a promise
                             // value is function that resolve to promise
-                            unpromise(next, function() {
+                            unpromise(next, function () {
                                 // trigger flush even if next is undefined
                                 self.flush({
                                     scroll: false,
@@ -10186,14 +10186,14 @@
             // -------------------------------------------------------------
             // :: convenience method for removing selected line
             // -------------------------------------------------------------
-            remove_line: function(line) {
+            remove_line: function (line) {
                 return self.update(line, null);
             },
             // -------------------------------------------------------------
             // :: return index of last line in case when you need to update
             // :: after something is echo on the terminal
             // -------------------------------------------------------------
-            last_index: function() {
+            last_index: function () {
                 return lines.length() - 1;
             },
             // -------------------------------------------------------------
@@ -10207,7 +10207,7 @@
             // ::   advanced server side controling of terminal
             // :: you can echo: promise, function, strings array or string
             // -------------------------------------------------------------
-            echo: function(arg, options) {
+            echo: function (arg, options) {
                 var arg_defined = arguments.length > 0;
                 var d = new $.Deferred();
                 function echo(arg) {
@@ -10230,8 +10230,8 @@
                         }, options || {});
                         // finalize function is passed around and invoked
                         // in terminal::flush after content is added to DOM
-                        (function(finalize) {
-                            locals.finalize = function(div) {
+                        (function (finalize) {
+                            locals.finalize = function (div) {
                                 if (locals.raw) {
                                     div.addClass('raw');
                                 }
@@ -10243,10 +10243,10 @@
                                         finalize.call(self, div);
                                     }
                                     var $images = div.find('img');
-                                    $images.each(function() {
+                                    $images.each(function () {
                                         var self = $(this);
                                         var img = new Image();
-                                        img.onerror = function() {
+                                        img.onerror = function () {
                                             self.replaceWith(use_broken_image);
                                         };
                                         img.src = this.src;
@@ -10269,14 +10269,14 @@
                         if (locals.typing) {
                             if (typeof arg !== 'string') {
                                 return d.reject('echo: Typing animation require string' +
-                                                ' or promise that resolve to string');
+                                    ' or promise that resolve to string');
                             }
                             if (typeof locals.delay !== 'number' || isNaN(locals.delay)) {
                                 return d.reject('echo: Invalid argument, delay need to' +
-                                                ' be a number');
+                                    ' be a number');
                             }
                             var p = self.typing('echo', locals.delay, arg, locals);
-                            p.then(function() {
+                            p.then(function () {
                                 d.resolve();
                             });
                             return;
@@ -10300,7 +10300,7 @@
                         if (is_promise(value)) {
                             echo_promise = true;
                         }
-                        unpromise(value, function(value) {
+                        unpromise(value, function (value) {
                             if (render(value, locals)) {
                                 return self;
                             }
@@ -10325,7 +10325,7 @@
                                 echo_promise = true;
                             }
                             lines.push([value, locals]);
-                            unpromise(next, function() {
+                            unpromise(next, function () {
                                 // extended commands should be processed only
                                 // once in echo and not on redraw
                                 if (locals.flush) {
@@ -10361,7 +10361,7 @@
                 return self;
             },
             // -------------------------------------------------------------
-            typing: function(type, delay, string, options) {
+            typing: function (type, delay, string, options) {
                 var d = new $.Deferred();
                 var settings;
                 var finish;
@@ -10395,11 +10395,11 @@
                         } else if (type === 'echo') {
                             typed_message(string, settings);
                         } else if (type === 'enter') {
-                            with_prompt(self.get_prompt(), function(prompt) {
+                            with_prompt(self.get_prompt(), function (prompt) {
                                 typed_enter(prompt, string, settings);
                             }, self);
                         } else if (type === 'insert') {
-                            with_prompt(self.get_prompt(), function(prompt) {
+                            with_prompt(self.get_prompt(), function (prompt) {
                                 typed_insert(prompt, string, settings);
                             }, self);
                         }
@@ -10412,8 +10412,8 @@
             // -------------------------------------------------------------
             // :: echo red text
             // -------------------------------------------------------------
-            error: function(message, options) {
-                options = $.extend({}, options, {raw: false, formatters: false});
+            error: function (message, options) {
+                options = $.extend({}, options, { raw: false, formatters: false });
                 function format(string) {
                     if (typeof string !== 'string') {
                         string = String(string);
@@ -10425,12 +10425,12 @@
                     return '[[;;;terminal-error]' + str + ']';
                 }
                 if (typeof message === 'function') {
-                    return self.echo(function() {
+                    return self.echo(function () {
                         return format(message.call(self));
                     }, options);
                 }
                 if (message && message.then) {
-                    message.then(function(string) {
+                    message.then(function (string) {
                         self.echo(format(string));
                     }).catch(make_label_error('Echo Error'));
                     return self;
@@ -10440,14 +10440,14 @@
             // -------------------------------------------------------------
             // :: Display Exception on terminal
             // -------------------------------------------------------------
-            exception: function(e, label) {
+            exception: function (e, label) {
                 var message = exception_message(e);
                 if (label) {
                     message = '&#91;' + label + '&#93;: ' + message;
                 }
                 if (message) {
                     self.error(message, {
-                        finalize: function(div) {
+                        finalize: function (div) {
                             div.addClass('terminal-exception terminal-message');
                         },
                         keepWords: true
@@ -10456,7 +10456,7 @@
                 if (typeof e.fileName === 'string') {
                     // display filename and line which throw exeption
                     self.pause(settings.softPause);
-                    $.get(e.fileName, function(file) {
+                    $.get(e.fileName, function (file) {
                         var num = e.lineNumber - 1;
                         var line = file.split('\n')[num];
                         if (line) {
@@ -10467,17 +10467,17 @@
                 }
                 if (e.stack) {
                     var stack = $.terminal.escape_brackets(e.stack);
-                    var output = stack.split(/\n/g).map(function(trace) {
+                    var output = stack.split(/\n/g).map(function (trace) {
                         // nested formatting will handle urls but that formatting
                         // can be removed - this code was created before
                         // that formatting existed (see commit ce01c3f5)
                         return '[[;;;terminal-error]' +
-                            trace.replace(url_re, function(url) {
+                            trace.replace(url_re, function (url) {
                                 return ']' + url + '[[;;;terminal-error]';
                             }) + ']';
                     }).join('\n');
                     self.echo(output, {
-                        finalize: function(div) {
+                        finalize: function (div) {
                             div.addClass('terminal-exception terminal-stack-trace');
                         },
                         formatters: false
@@ -10488,7 +10488,7 @@
             // -------------------------------------------------------------
             // :: Scroll Div that holds the terminal
             // -------------------------------------------------------------
-            scroll: function(amount) {
+            scroll: function (amount) {
                 var pos;
                 amount = Math.round(amount);
                 if (self.prop) { // work with jQuery > 1.6
@@ -10510,7 +10510,7 @@
             // :: Exit all interpreters and logout. The function will throw
             // :: exception if there is no login provided
             // -------------------------------------------------------------
-            logout: function(local) {
+            logout: function (local) {
                 if (in_login) {
                     throw new Error(sprintf(strings().notWhileLogin, 'logout'));
                 }
@@ -10540,14 +10540,14 @@
             // :: in login function. It does nothing (return undefined) if
             // :: there is no login
             // -------------------------------------------------------------
-            token: function(local) {
+            token: function (local) {
                 return storage.get(self.prefix_name(local) + '_token');
             },
             // -------------------------------------------------------------
             // :: Function sets the token to the supplied value. This function
             // :: works regardless of wherer settings.login is supplied
             // -------------------------------------------------------------
-            set_token: function(token, local) {
+            set_token: function (token, local) {
                 var name = self.prefix_name(local) + '_token';
                 if (typeof token === 'undefined') {
                     storage.remove(name);
@@ -10560,29 +10560,29 @@
             // :: Function get the token either set by the login method or
             // :: by the set_token method.
             // -------------------------------------------------------------
-            get_token: function(local) {
+            get_token: function (local) {
                 return self.token(local);
             },
             // -------------------------------------------------------------
             // :: Function return Login name entered by the user
             // -------------------------------------------------------------
-            login_name: function(local) {
+            login_name: function (local) {
                 return storage.get(self.prefix_name(local) + '_login');
             },
             // -------------------------------------------------------------
             // :: Function returns the name of current interpreter
             // -------------------------------------------------------------
-            name: function() {
+            name: function () {
                 return interpreters.top().name;
             },
             // -------------------------------------------------------------
             // :: Function return prefix name for login/token
             // -------------------------------------------------------------
-            prefix_name: function(local) {
+            prefix_name: function (local) {
                 var name = (settings.name ? settings.name + '_' : '') +
                     terminal_id;
                 if (local && interpreters.size() > 1) {
-                    var local_name = interpreters.map(function(intrp) {
+                    var local_name = interpreters.map(function (intrp) {
                         return intrp.name || '';
                     }).slice(1).join('_');
                     if (local_name) {
@@ -10594,7 +10594,7 @@
             // -------------------------------------------------------------
             // :: wrapper for common use case
             // -------------------------------------------------------------
-            read: function(message, success, cancel) {
+            read: function (message, success, cancel) {
                 var options;
                 if (typeof arguments[1] === 'object') {
                     options = $.extend({
@@ -10613,7 +10613,7 @@
                 if (options.typing) {
                     var prompt = self.get_prompt();
                     options.typing = false;
-                    return self.typing('prompt', options.delay, message).then(function() {
+                    return self.typing('prompt', options.delay, message).then(function () {
                         return self.set_prompt(prompt).read(message, options);
                     });
                 }
@@ -10621,7 +10621,7 @@
                 force_awake = true;
                 var defer = jQuery.Deferred();
                 var read = false;
-                self.push(function(string) {
+                self.push(function (string) {
                     read = true;
                     defer.resolve(string);
                     if (is_function(options.success)) {
@@ -10635,7 +10635,7 @@
                     name: 'read',
                     history: false,
                     prompt: message || '',
-                    onExit: function() {
+                    onExit: function () {
                         if (!read) {
                             defer.reject();
                             if (is_function(options.cancel)) {
@@ -10652,7 +10652,7 @@
             // -------------------------------------------------------------
             // :: Push a new interenter on the Stack
             // -------------------------------------------------------------
-            push: function(interpreter, options) {
+            push: function (interpreter, options) {
                 cmd_ready(function ready() {
                     options = options || {};
                     var defaults = {
@@ -10677,7 +10677,7 @@
                         prepare_top_interpreter();
                     }
                     //self.pause();
-                    make_interpreter(interpreter, options.login, function(ret) {
+                    make_interpreter(interpreter, options.login, function (ret) {
                         // result is object with interpreter and completion properties
                         interpreters.push($.extend({}, ret, push_settings));
                         if (push_settings.completion === true) {
@@ -10699,7 +10699,7 @@
                                     error
                                 );
                             } else if (get_type(interpreter) === 'string' &&
-                                       type === 'string' || type === 'boolean') {
+                                type === 'string' || type === 'boolean') {
                                 error = push_settings.infiniteLogin ? $.noop : self.pop;
                                 self.login(
                                     make_json_rpc_login(
@@ -10724,7 +10724,7 @@
             // -------------------------------------------------------------
             // :: Remove the last interpreter from the Stack
             // -------------------------------------------------------------
-            pop: function(string, silent) {
+            pop: function (string, silent) {
                 if (string !== undefined) {
                     echo_command(string);
                 }
@@ -10771,12 +10771,12 @@
             // -------------------------------------------------------------
             // :: Change terminal option(s) at runtime
             // -------------------------------------------------------------
-            option: function(object_or_name, value) {
+            option: function (object_or_name, value) {
                 if (typeof value === 'undefined') {
                     if (typeof object_or_name === 'string') {
                         return settings[object_or_name];
                     } else if (typeof object_or_name === 'object') {
-                        $.each(object_or_name, function(key, value) {
+                        $.each(object_or_name, function (key, value) {
                             settings[key] = value;
                         });
                     }
@@ -10791,14 +10791,14 @@
             // -------------------------------------------------------------
             // :: invoke keydown shorcut
             // -------------------------------------------------------------
-            invoke_key: function(shortcut) {
+            invoke_key: function (shortcut) {
                 command_line.invoke_key(shortcut);
                 return self;
             },
             // -------------------------------------------------------------
             // :: change terminal keymap at runtime
             // -------------------------------------------------------------
-            keymap: function(keymap, fn) {
+            keymap: function (keymap, fn) {
                 if (arguments.length === 0) {
                     return command_line.keymap();
                 }
@@ -10810,13 +10810,13 @@
                         keymap = $.extend(
                             {},
                             terminal_init_keymap,
-                            $.omap(keymap || {}, function(key, fn) {
+                            $.omap(keymap || {}, function (key, fn) {
                                 if (!terminal_init_keymap[key]) {
                                     return fn.bind(self);
                                 }
-                                return function(e, original) {
+                                return function (e, original) {
                                     // new keymap function will get default as 2nd arg
-                                    return fn.call(self, e, function() {
+                                    return fn.call(self, e, function () {
                                         return terminal_init_keymap[key](e, original);
                                     });
                                 };
@@ -10829,8 +10829,8 @@
                     if (!terminal_init_keymap[key]) {
                         command_line.keymap(key, fn.bind(self));
                     } else {
-                        command_line.keymap(key, function(e, original) {
-                            return fn.call(self, e, function() {
+                        command_line.keymap(key, function (e, original) {
+                            return fn.call(self, e, function () {
                                 return terminal_init_keymap[key](e, original);
                             });
                         });
@@ -10840,13 +10840,13 @@
             // -------------------------------------------------------------
             // :: Return how deep you are in nested interpreters
             // -------------------------------------------------------------
-            level: function() {
+            level: function () {
                 return interpreters.size();
             },
             // -------------------------------------------------------------
             // :: Reinitialize the terminal
             // -------------------------------------------------------------
-            reset: function() {
+            reset: function () {
                 when_ready(function ready() {
                     self.clear();
                     while (interpreters.size() > 1) {
@@ -10860,12 +10860,12 @@
             // :: Remove all local storage left by terminal, it will not
             // :: logout you until you refresh the browser
             // -------------------------------------------------------------
-            purge: function() {
+            purge: function () {
                 when_ready(function ready() {
                     var prefix = self.prefix_name() + '_';
                     var names = storage.get(prefix + 'interpreters');
                     if (names) {
-                        $.each(JSON.parse(names), function(_, name) {
+                        $.each(JSON.parse(names), function (_, name) {
                             storage.remove(name + '_commands');
                             storage.remove(name + '_token');
                             storage.remove(name + '_login');
@@ -10881,7 +10881,7 @@
             // :: not purge the terminal so you will have the same state
             // :: when you refresh the browser
             // -------------------------------------------------------------
-            destroy: function() {
+            destroy: function () {
                 when_ready(function ready() {
                     command_line.destroy().remove();
                     self.resizer('unbind');
@@ -10946,13 +10946,13 @@
             // -------------------------------------------------------------
             // :: ref: https://stackoverflow.com/a/18927969/387194
             // -------------------------------------------------------------
-            scroll_to: function(elem) {
+            scroll_to: function (elem) {
                 var scroll = self.scrollTop() - self.offset().top + $(elem).offset().top;
                 self.scrollTop(scroll);
                 return self;
             },
             // -------------------------------------------------------------
-            scroll_to_bottom: function() {
+            scroll_to_bottom: function () {
                 var scrollHeight;
                 if (self.prop) {
                     scrollHeight = self.prop('scrollHeight');
@@ -10966,7 +10966,7 @@
             // :: return true if terminal div or body is at the bottom
             // :: is use scrollBottomOffset option as margin for the check
             // -------------------------------------------------------------
-            is_bottom: function() {
+            is_bottom: function () {
                 if (settings.scrollBottomOffset === -1) {
                     return false;
                 } else if (typeof is_bottom_detected === 'boolean') {
@@ -10983,20 +10983,20 @@
             // -------------------------------------------------------------
             // :: create terminal object clone, used by pipe
             // -------------------------------------------------------------
-            duplicate: function() {
+            duplicate: function () {
                 var copy = $(self);
                 return $.extend(copy, public_api);
             },
             // -------------------------------------------------------------
             // :: return output flush buffer
             // -------------------------------------------------------------
-            get_output_buffer: function(options) {
+            get_output_buffer: function (options) {
                 var settings = $.extend({
                     html: false
                 }, options);
                 var result = [];
                 var append = false;
-                buffer.forEach(function(data) {
+                buffer.forEach(function (data) {
                     if (data) {
                         if (is_function(data.finalize)) {
                             append = !data.newline;
@@ -11017,7 +11017,7 @@
                     }
                 });
                 if (settings.html) {
-                    return result.map(function(line) {
+                    return result.map(function (line) {
                         return '<div>' + line + '</div>';
                     }).join('\n');
                 }
@@ -11026,13 +11026,13 @@
             // -------------------------------------------------------------
             // :: clear flush buffer
             // -------------------------------------------------------------
-            clear_buffer: function() {
+            clear_buffer: function () {
                 buffer.clear();
                 return self;
             }
-        }, function(name, fun) {
+        }, function (name, fun) {
             // wrap all functions and display execptions
-            return function() {
+            return function () {
                 if (defunct) {
                     if (!settings.exceptionHandler) {
                         throw new $.terminal.Exception(strings().defunctTerminal);
@@ -11117,7 +11117,7 @@
         // :: will have div container of the line as first argument
         // :: actuall echo to the terminal happen when calling flush
         // ---------------------------------------------------------------------
-        var buffer = new FormatBuffer(function(options) {
+        var buffer = new FormatBuffer(function (options) {
             return {
                 linksNoReferrer: settings.linksNoReferrer,
                 linksNoFollow: settings.linksNoFollow,
@@ -11128,7 +11128,7 @@
                 allowedAttributes: options.allowedAttributes || []
             };
         });
-        var lines = new OutputLines(function() {
+        var lines = new OutputLines(function () {
             return settings;
         });
         var storage = new StorageHelper(settings.memory);
@@ -11146,7 +11146,7 @@
             settings.describe = false;
         }
         // register ajaxSend for cancel requests on CTRL+D
-        $(document).bind('ajaxSend.terminal_' + self.id(), function(e, xhr) {
+        $(document).bind('ajaxSend.terminal_' + self.id(), function (e, xhr) {
             requests.push(xhr);
         });
         var wrapper = $('<div class="terminal-wrapper"/>').appendTo(self);
@@ -11219,7 +11219,7 @@
             if (fn.proxy) {
                 return fn;
             }
-            var wrapper = function(callback) {
+            var wrapper = function (callback) {
                 return fn.call(self, callback, self);
             };
             wrapper.proxy = true;
@@ -11237,7 +11237,7 @@
                 return item.type.indexOf(type) !== -1;
             }
             function echo_image(image) {
-                self.echo('<img src="' + image + '"/>', {raw: true});
+                self.echo('<img src="' + image + '"/>', { raw: true });
             }
             function data_uri(blob) {
                 var URL = window.URL || window.webkitURL;
@@ -11256,7 +11256,7 @@
                     var ret = fire_event('onPaste', [event]);
                     if (ret) {
                         if (is_function(ret.then || ret.done)) {
-                            return (ret.then || ret.done).call(ret, function(ret) {
+                            return (ret.then || ret.done).call(ret, function (ret) {
                                 echo(ret, true);
                             });
                         } else {
@@ -11284,7 +11284,7 @@
                                 var blob = items[i].getAsFile();
                                 echo(blob);
                             } else if (is_type(items[i], 'text/plain')) {
-                                items[i].getAsString(function(text) {
+                                items[i].getAsString(function (text) {
                                     echo(text.replace(/\r/g, ''));
                                 });
                             }
@@ -11301,19 +11301,19 @@
         var terminal_init_keymap = $.extend(
             {},
             keymap,
-            $.omap(settings.keymap || {}, function(key, fn) {
+            $.omap(settings.keymap || {}, function (key, fn) {
                 if (!keymap[key]) {
                     return fn.bind(self);
                 }
-                return function(e, original) {
+                return function (e, original) {
                     // new keymap function will get default as 2nd argument
-                    return fn.call(self, e, function() {
+                    return fn.call(self, e, function () {
                         return keymap[key](e, original);
                     });
                 };
             })
         );
-        make_interpreter(init_interpreter, settings.login, function(interpreter) {
+        make_interpreter(init_interpreter, settings.login, function (interpreter) {
             if (settings.completion && typeof settings.completion !== 'boolean' ||
                 !settings.completion) {
                 // overwrite interpreter completion by global setting #224
@@ -11359,12 +11359,12 @@
                 allowedAttributes: settings.allowedAttributes,
                 keypress: key_press,
                 tabs: settings.tabs,
-                onPositionChange: function() {
+                onPositionChange: function () {
                     var args = [].slice.call(arguments);
                     make_cursor_visible();
                     fire_event('onPositionChange', args);
                 },
-                onCommandChange: function(command) {
+                onCommandChange: function (command) {
                     // resize is not triggered when insert called just after init
                     //  and scrollbar appear
                     if (old_width !== fill.width()) {
@@ -11392,19 +11392,19 @@
                     }
                 }
             }
-            self.oneTime(100, function() {
+            self.oneTime(100, function () {
                 $(document).bind('click.terminal_' + self.id(), disable).
                     bind('contextmenu.terminal_' + self.id(), disable);
             });
             var $win = $(window);
             // cordova application, if keyboard was open and we resume, it will be
             // closed so we need to disable terminal so you can enable it with tap
-            document.addEventListener("resume", function() {
+            document.addEventListener("resume", function () {
                 self.disable();
             });
             // istanbul ignore next
             if (is_mobile) {
-                (function() {
+                (function () {
                     self.addClass('terminal-mobile');
                     var start;
                     var move;
@@ -11414,7 +11414,7 @@
                     var HOLD_TIME = 200;
                     var timer;
                     clip.$node.off('touchstart.cmd');
-                    self.on('touchstart.terminal', function(e) {
+                    self.on('touchstart.terminal', function (e) {
                         e = e.originalEvent;
                         window.touch_event = e;
                         if (e.target.tagName.toLowerCase() === 'a') {
@@ -11427,11 +11427,11 @@
                                 x: point.clientX,
                                 y: point.clientY
                             };
-                            timer = setTimeout(function() {
+                            timer = setTimeout(function () {
                                 start = null;
                             }, HOLD_TIME);
                         }
-                    }).on('touchmove.terminal', function(e) {
+                    }).on('touchmove.terminal', function (e) {
                         if (e.touches.length === 1 && start) {
                             var point = e.touches[0];
                             var diff_x = Math.abs(point.clientX - start.x);
@@ -11440,7 +11440,7 @@
                                 move = true;
                             }
                         }
-                    }).on('touchend.terminal', function() {
+                    }).on('touchend.terminal', function () {
                         if (start) {
                             clearTimeout(timer);
                             if (!move) {
@@ -11468,7 +11468,7 @@
                 // or open on links. See #644 bug
                 var was_ctx_event;
                 // detect mouse drag
-                (function() {
+                (function () {
                     var count = 0;
                     var $target;
                     var name = 'click_' + self.id();
@@ -11492,11 +11492,11 @@
                     }
                     var ignore_elements = '.terminal-output textarea,' +
                         '.terminal-output input';
-                    self.mousedown(function(e) {
+                    self.mousedown(function (e) {
                         if (!scrollbar_event(e, fill)) {
                             $target = $(e.target);
                         }
-                    }).mouseup(function() {
+                    }).mouseup(function () {
                         if (was_ctx_event) {
                             was_ctx_event = false;
                             return;
@@ -11522,12 +11522,12 @@
                             }
                         }
                         reset();
-                    }).dblclick(function() {
+                    }).dblclick(function () {
                         reset();
                         self.stopTime(name);
                     });
                 })();
-                (function() {
+                (function () {
                     var $clip = command_line.clip().$node;
                     function is_context_event(e) {
                         return e.type === 'mousedown' && e.buttons === 2 ||
@@ -11539,7 +11539,7 @@
                     } else {
                         event_name = 'mousedown.terminal';
                     }
-                    self.on(event_name, function(e) {
+                    self.on(event_name, function (e) {
                         was_ctx_event = get_selected_html() === '' && is_context_event(e);
                         if (was_ctx_event) {
                             var $target = $(e.target);
@@ -11583,7 +11583,7 @@
                                 $clip.focus();
                             }
                             self.stopTime('textarea');
-                            self.oneTime(100, 'textarea', function() {
+                            self.oneTime(100, 'textarea', function () {
                                 var props = {
                                     left: '',
                                     top: '',
@@ -11598,7 +11598,7 @@
                                 $clip.css(props);
                             });
                             self.stopTime('selection');
-                            self.everyTime(20, 'selection', function() {
+                            self.everyTime(20, 'selection', function () {
                                 if ($clip[0].selection !== $clip[0].value) {
                                     if (get_textarea_selection($clip[0])) {
                                         clear_textarea_selection($clip[0]);
@@ -11613,7 +11613,7 @@
                         }
                     });
                 })();
-                self.on('scroll', function() {
+                self.on('scroll', function () {
                     var $textarea = self.find('textarea');
                     var rect = self[0].getBoundingClientRect();
                     var height = self[0].scrollHeight;
@@ -11628,7 +11628,7 @@
                     }
                 });
             }
-            self.on('click', 'a', function(e) {
+            self.on('click', 'a', function (e) {
                 var $this = $(this);
                 if ($this.closest('.terminal-exception').length) {
                     var href = $this.attr('href');
@@ -11672,7 +11672,7 @@
                     prefix: 'terminal-'
                 };
                 self.resizer('unbind').resizer(resize, options);
-                font_resizer.resizer('unbind').resizer(function() {
+                font_resizer.resizer('unbind').resizer(function () {
                     calculate_char_size();
                     self.resize();
                 }, options);
@@ -11749,7 +11749,7 @@
             var in_dom = !!self.closest('body').length;
             var MutationObsrv = window.MutationObserver || window.WebKitMutationObserver;
             if (MutationObsrv) {
-                mutation_observer = new MutationObsrv(function() {
+                mutation_observer = new MutationObsrv(function () {
                     if (self.closest('body').length) {
                         if (!in_dom) {
                             self.scroll_to_bottom();
@@ -11762,7 +11762,7 @@
                         in_dom = false;
                     }
                 });
-                mutation_observer.observe(document.body, {childList: true});
+                mutation_observer.observe(document.body, { childList: true });
             }
             if (in_dom) {
                 // check if element is in the DOM if not running IntersectionObserver
@@ -11794,15 +11794,15 @@
                         defer.resolve();
                         return defer.promise();
                     } else if (paused) {
-                        resume_callbacks.push(function() {
-                            return terminal.exec(spec[2], options).done(function() {
+                        resume_callbacks.push(function () {
+                            return terminal.exec(spec[2], options).done(function () {
                                 terminal.save_state(spec[2], true, spec[1]);
                                 defer.resolve();
                             });
                         });
                         return defer.promise();
                     } else {
-                        return terminal.exec(spec[2], options).done(function() {
+                        return terminal.exec(spec[2], options).done(function () {
                             terminal.save_state(spec[2], true, spec[1]);
                         });
                     }
@@ -11812,7 +11812,7 @@
             if (settings.execHash) {
                 if (location.hash) {
                     // wait until login is initialized
-                    setTimeout(function() {
+                    setTimeout(function () {
                         try {
                             var hash = location.hash.replace(/^#/, '');
                             // yes no var - local inside terminal
@@ -11847,13 +11847,13 @@
             // change_hash = true; // exec can now change hash
             // -------------------------------------------------------------
             /* istanbul ignore next */
-            (function() {
+            (function () {
                 var shift = false;
-                $(document).bind('keydown.terminal_' + self.id(), function(e) {
+                $(document).bind('keydown.terminal_' + self.id(), function (e) {
                     if (e.shiftKey) {
                         shift = true;
                     }
-                }).bind('keyup.terminal_' + self.id(), function(e) {
+                }).bind('keyup.terminal_' + self.id(), function (e) {
                     // in Google Chromium/Linux shiftKey is false
                     if (e.shiftKey || e.which === 16) {
                         shift = false;
@@ -11906,7 +11906,7 @@
                         event = "DOMMouseScroll";
                     }
                     div = null;
-                    self.on(event, function(e) {
+                    self.on(event, function (e) {
                         var delta;
                         if (event === 'mousewheel') {
                             delta = - 1 / 40 * e.originalEvent.wheelDelta;
@@ -11916,7 +11916,7 @@
                         mousewheel(e, -delta);
                     });
                 }
-                self.touch_scroll(function(event) {
+                self.touch_scroll(function (event) {
                     var delta = event.current.clientY - event.previous.clientY;
                     var ret;
                     var interpreter = interpreters.top();
