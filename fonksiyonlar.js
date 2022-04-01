@@ -1,19 +1,128 @@
 function help() {
     term.echo('');
     term.echo('The commands that you can write in here:');
+    term.echo('');
     term.echo('- [[b;#fff;]hello()] to say hello.');
     term.echo('- [[b;#fff;]whoAmI()] for some info.');
+    term.echo('- [[b;#fff;]myWorks()] to see my precious works.');
     term.echo('- [[b;#fff;]myBlog()] for going to my blog about coding.');
     term.echo('- [[b;#fff;]contact()], if you wanna say something or sth. else.')
     term.echo('- [[b;#fff;]cvDetails()] for my experience information.');
     //term.echo('- [[b;#fff;]desktop()] for directing to UI.'); working on it.
     term.echo('- [[b;#fff;]clear()] to clear the screen.');
     term.echo('');
-} 
+}
 
 function desktop() {
     term.echo('');
-    term.echo('You are going to see the desktop here but its under construction.');
+    term.echo('You are going to see the desktop here when you write this, but now its under construction.');
+    term.echo('');
+}
+
+function myWorks() {
+    term.echo('');
+    term.echo('What do you wanna see?');
+    term.echo('I will make a list for you to choose:');
+    term.echo('');
+    term.echo(' - [[b;#fff;]mySites()] for see my self-written websites.');
+    term.echo(' - [[b;#fff;]myApps()] for see my self-written apps.');
+    term.echo('');
+    term.echo('Note: I will be adding more big projects. But for mini projects,');
+    term.echo('you can check out my blog with [[b;#fff;]myBlog()] too.');
+    term.echo('');
+}
+
+function mySites() {
+    term.echo('');
+    term.echo('Here is my websites [[b;#fff;]ON AIR :)]:');
+    term.echo('');
+    term.echo('- https://www.ne-ka.com.tr/ is a website for NeKa Elektronik. Go with [[b;#fff;]nekaSite()], or click on the link.');
+    term.echo('- https://portaldesignstudio.com/. Go with [[b;#fff;]portalSite()], or click on the link.'); 
+    term.echo('- https://www.mfgstudios.com/ is a website for myself. Go with ...:D okey you are here :D');
+    term.echo('');
+}
+
+function myApps() {
+    term.echo('');
+    term.echo('Here is my apps [[b;#fff;]ON AIR :)]:');
+    term.echo('');
+    term.echo('- [[b;#fff;]playSpin()] is my app for generating random values for card games or other games.');
+    term.echo('- [[b;#fff;]warrior2war1()], 2warrior1war is a game for Android Phones. It\'s a simple strategy game for 2 players.');
+    term.echo('');
+}
+
+function playSpin() {
+    term.echo('');
+    term.echo('Hello friends, this time I am here with an application made with Flutter. With this application, you can');
+    term.echo('generate random values such as single dice and double dice.As a simple application, I have shared the');
+    term.echo('source code on github. You can find the video showing how the application works, the source code and apk');
+    term.echo('link below.');
+    term.echo('');
+    term.echo('I will make a list for you to choose:');
+    term.echo('');
+    term.echo(' - [[b;#fff;]psApp()] for Android APK.');
+    term.echo(' - [[b;#fff;]psVideo()] for PlaySpin apps video.');
+    term.echo(' - [[b;#fff;]psSource()] for PlaySpin apps source code.');
+    term.echo(' - [[b;#fff;]psBlog()] for PlaySpin blog content on my blog.');
+    term.echo('');
+}
+
+function psApp() {
+    term.echo('');
+    term.echo('Directing to Playspin app.');
+    window.open('https://drive.google.com/file/d/1k8wS8r6_m0_OecrrbdS8McLecIqmwiJg/view?usp=sharing', '_blank');
+    term.echo('');
+}
+
+function psVideo() {
+    term.echo('');
+    term.echo('Directing to Playspin video.');
+    window.open('https://www.youtube.com/watch?v=giiOig-RUsU&feature=youtu.be', '_blank');
+    term.echo('');
+}
+
+function psSource() {
+    term.echo('');
+    term.echo('Directing to PlaySpin source code.');
+    window.open('https://github.com/Mastechnology/playspin-app.git', '_blank');
+    term.echo('');
+}
+
+function psBlog() {
+    term.echo('');
+    term.echo('Directing to PlaySpin blog content.');
+    window.open('https://www.mfgstudiosblog.com/2022/03/playspin-uygulamas-flutter-ile.html', '_blank');
+    term.echo('');
+}
+
+function warrior2war1() { 
+    term.echo('');
+    term.echo('Here is the list for my 2Warrior1war game, you can see how-to-play in the video below:');
+    term.echo('');
+    term.echo(' - [[b;#fff;]w2w1Video()] for apps game-play video.');
+    term.echo(' - [[b;#fff;]w2w1Github()] for apps source code.');
+    term.echo(' - [[b;#fff;]w2w1Blog()] for apps blog content.');
+    term.echo('');
+}
+
+function w2w1Video(){
+    term.echo('');
+    term.echo('Directing to my 2warrior1war video.');
+    window.open('https://www.youtube.com/watch?v=c5z9e4uizoE', '_blank');
+    term.echo('');
+}
+
+function w2w1Github() {
+    term.echo('');
+    term.echo('Directing to my 2warrior1war game.');
+    window.open('https://github.com/Mastechnology/2warrior1war', '_blank');
+    term.echo('');
+}
+
+function w2w1Blog() {
+    term.echo('');
+    term.echo('Directing to my 2warrior1war blog content.');
+    window.open('https://www.mfgstudiosblog.com/2020/07/2-savasc-1-savas-bolgesi-android.html', '_blank');
     term.echo('');
 }
 
@@ -22,6 +131,7 @@ function desktop() {
 function contact() {
     term.echo('');
     term.echo('Here is the list:');
+    term.echo('');
     term.echo(' - [[b;#fff;]myTwitter()]');
     term.echo(' - [[b;#fff;]myInstagram()]');
     term.echo(' - [[b;#fff;]myBlogInsta()]')
@@ -76,6 +186,7 @@ function cvDetails() {
     term.echo('');
     term.echo('What do you wanna see?');
     term.echo('I will make a list for you to choose:');
+    term.echo('');
     term.echo(' - [[b;#fff;]myExperiences()]');
     term.echo(' - [[b;#fff;]myEducation()]');
     term.echo(' - [[b;#fff;]myVolunteerings()]')
@@ -86,6 +197,7 @@ function cvDetails() {
 function myVolunteerings() {
     term.echo('');
     term.echo('Volunteering Works List:');
+    term.echo('');
     term.echo('- [[b;#fff;]pressAndMedia()]');
     term.echo('- [[b;#fff;]autonomousCar()]');
     term.echo('- [[b;#fff;]mergenRobotaxi()]');
@@ -162,6 +274,7 @@ function bursaIO() {
 function myEducation() { 
     term.echo('');
     term.echo('School List:');
+    term.echo('');
     term.echo('- [[b;#fff;]uludagUni()]');
     term.echo('- [[b;#fff;]anadoluUni()]');
     term.echo('');
@@ -180,7 +293,7 @@ function uludagUni() {
 function uludagPaper() { 
     term.echo('');
     term.echo('Directing to paper.');
-    window.open('mfg/mfg_cv_new.pdf', '_blank');
+    window.open('mfg_cv_new.pdf', '_blank');
     term.echo('');
 }
 
@@ -201,7 +314,7 @@ function anadoluUni() {
 function myCvPDF() {
     term.echo('');
     term.echo('Directing to site.');
-    window.open('mfg/mfg_cv_new.pdf', '_blank');
+    window.open('mfg_cv_new.pdf', '_blank');
     term.echo('');
 }
 
@@ -209,6 +322,7 @@ function versionUpdates() {
     term.echo('');
     term.echo('This version is v1.0');
     term.echo('New commands will be listed here:');
+    term.echo('');
     term.echo('- I just uploaded my Site. Sooooooo I need to think what can I add extra.');
     term.echo('- If you have an idea, here is my [[b;#fff;]contact()] list.');
     term.echo('');
@@ -227,7 +341,7 @@ function hello() {
     term.echo('');
     term.echo('Hello my friend. I\'m here to help you :)');
     term.echo('');
-} 
+}
 
 /// whoAmI SECTION STARTED
 
@@ -244,7 +358,7 @@ function whoAmI() {
     term.echo('Hint: Go to site [[b;#fff;]mfgstudiosblog.com] with [[b;#fff;]myBlog()].');
     term.echo('Hint: Go to my github account with [[b;#fff;]myGithub()].');
     term.echo('');
-} 
+}
 
 function myBlog() {
     term.echo('');
@@ -260,6 +374,7 @@ function myBlog() {
 function myExperiences() { 
     term.echo('');
     term.echo('Experience List:');
+    term.echo('');
     term.echo('   -[[b;#fff;]nekaElektronik()]');
     term.echo('   -[[b;#fff;]mythologyTech()]');
     term.echo('   -[[b;#fff;]gurmeSoft()]');
@@ -285,6 +400,13 @@ function nekaSite() {
     term.echo('');
     term.echo('Directing to site.');
     window.open('https://www.ne-ka.com.tr/', '_blank');  
+    term.echo('');
+}
+
+function portalSite() {
+    term.echo('');
+    term.echo('Directing to site.');
+    window.open('https://portaldesignstudio.com/', '_blank');
     term.echo('');
 }
 
